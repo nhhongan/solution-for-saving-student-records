@@ -1,0 +1,81 @@
+.sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 245px;
+    background-color: var(--primary-color);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    transition: transform 0.3s ease-in-out;
+    z-index: 999;
+    text-align: center; /* added */
+}
+
+.sidebar.open {
+    transform: translateX(0);
+}
+
+.sidebar.close {
+    transform: translateX(-245px);
+}
+
+/* Styling for Link elements inside sidebar */
+.links a {
+    color: black;
+    font-size: 12px;
+    font-weight: 600;
+    text-decoration: none;
+    display: block;
+    padding: 1em;
+    display: flex;
+    align-items: center;
+    margin-right: 1em;
+    margin-left: 1em;
+    border-radius: 10px;
+    transition: background-color 0.3s ease-in-out;
+}
+
+.links a.active {
+    background: rgba(255, 255, 255, 0.3);
+    color: black;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+}
+
+.links a img{
+    width: 20px;
+    height: 20px;
+    margin-right: 1em;
+}
+
+/* Styling for profile */
+.sidebar .bottom {
+  position: absolute;
+  bottom: 1em;
+  width: 100%;
+}
+
+.bottom.profile {
+    font-size: 12px;
+    font-weight: 600;
+}
+.bottom.login {
+    color: blue;
+    font-weight: bold;
+}
+
+/* Styling for the cover */
+.sidebar-cover {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1;
+    display: none;
+}
+
+.sidebar.open + .sidebar-cover {
+    display: block;
+}
+
