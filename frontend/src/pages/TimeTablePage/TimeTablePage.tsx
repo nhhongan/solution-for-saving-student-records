@@ -1,4 +1,4 @@
-import './CourseRegisPage.scss'
+import './TimeTablePage.scss'
 import React, { useState } from 'react';
 import filter_icon from 'assets/images/filter-icon.svg';
 import caret_down from 'assets/images/caret-down-solid.svg';
@@ -13,7 +13,7 @@ interface Course {
     lecturer: string
 }
 
-function CourseRegisPage() {
+function TimeTablePage() {
     // Create a list of courses
     const filteredCourses: Course[] = [
         {
@@ -42,17 +42,17 @@ function CourseRegisPage() {
         }
     ];
     
-    const [courseid, setCourseId] = useState('');
-    const [faculty, setFaculty] = useState('');
+    const [week, setWeek] = useState('');
+    const [semester, setSemester] = useState('');
     const [courses, setCourses] = useState<Course[]>(filteredCourses);
     // setCourses(filteredCourses);
     
-    const handleCourseIdChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setCourseId(event.target.value);
+    const handleWeekChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setWeek(event.target.value);
     };
 
-    const handleFacultyChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setFaculty(event.target.value);
+    const handleSemesterChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setSemester(event.target.value);
     };
 
     const handleFilter = (event: React.FormEvent<HTMLFormElement>) => {
@@ -61,15 +61,16 @@ function CourseRegisPage() {
     };
     
     return (
-        <div className="regis-page">
+        <div className="timetable-page">
             <form onSubmit={handleFilter} className='input-form'>
-                <div className='form-group' id='form-courseid'>
-                    <label htmlFor="courseid">Course Id</label>
-                    <input type="text" id="courseid" value={courseid} onChange={handleCourseIdChange} />
+                <div className='form-group' id='form-semester'>
+                    <label htmlFor="semester">Semester</label>
+                    <input type="text" id="semester" value={semester} onChange={handleSemesterChange} />
+                    <img src={caret_down} alt="test" />
                 </div>
-                <div className='form-group' id='form-faculty'>
-                    <label htmlFor="faculty">Faculty</label>
-                    <input type="text" id="faculty" value={faculty} onChange={handleFacultyChange} />
+                <div className='form-group' id='form-week'>
+                    <label htmlFor="week">Week</label>
+                    <input type="text" id="week" value={semester} onChange={handleSemesterChange} />
                     <img src={caret_down} alt="test" />
                 </div>
                 <button id='submit' type="submit">
@@ -115,4 +116,4 @@ function CourseRegisPage() {
     );
 }
 
-export default CourseRegisPage;
+export default TimeTablePage;

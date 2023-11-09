@@ -1,83 +1,84 @@
 .regis-page{ 
-    form {
-        margin-top: 2em;
-        width: 100%;
-        margin-right: 1em;
-        margin-bottom: 4em;
-        // align item to the center
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        .form-group {
-            margin-bottom: 1em;
-            display: flex;
-            align-items: center;
-            position: relative;
-            //expand form group to fill the width
-            width: 100%;
-            label {
-                font-size: 14px;
-                font-weight: 600;
-                color: rgba(0, 0, 0, 1);
-                margin-right: 1em;
-                // Extend label width regardless of font-size
-                width: 70px;
-            }
-            input {
-                // Set border to 1px solid gray
-                border: 1px solid rgba(0, 0, 0, 0.2);
-                border-radius: 999px;
-                height: 2em;
-                padding-left: 1em;
-                padding-right: 1em;
-                // Extend input width to fill the remaining space
-                flex: 1;
-            }
-            img {
-                position: absolute;
-                // align icon to the right
-                right: 1em;
-            }
-        }
-        #submit {
-            //align button to the center
-            margin: 0 auto;
-            // set width to fill the content;
-            width: fit-content;
-            // add padding
-            padding-left: 1em;
-            padding-right: 1em;
-            font-size: 14px;
-            font-weight: 500;
-            border-radius: 10px;
-            background: rgba(238, 237, 237, 1);
-            img {
-                margin-left: 5px;
-            }
-        }
-    }
-    table {
-        font-size: 10px;
-        font-weight: 500;
-        thead {
-            background-color: rgba(232, 241, 250, 1);
-            height: 43px;
-            // Remove gaps between th
-            border-collapse: collapse;
-            th {
-                // Set border to 1px solid black
-                border: 1px solid rgba(0, 0, 0, 0.2);
-                // set margin left right
-                padding-left: 5px;
-                padding-right: 5px;
-                // Remove margin;
-            }
-        }
-        td {
-            // Aign text center
-            text-align: center;
-            // Set bottom border;
-            border-bottom: 1px solid rgba(0, 0, 0, 0.8);
-        }
-    }
+    // form {
+    //     margin-top: 2em;
+    //     width: 100%;
+    //     margin-right: 1em;
+    //     margin-bottom: 4em;
+    //     // align item to the center
+    //     display: flex;
+    //     flex-direction: column;
+    //     align-items: center;
+    //     .form-group {
+    //         margin-bottom: 1em;
+    //         display: flex;
+    //         align-items: center;
+    //         position: relative;
+    //         //expand form group to fill the width
+    //         width: 100%;
+    //         label {
+    //             font-size: 14px;
+    //             font-weight: 600;
+    //             color: rgba(0, 0, 0, 1);
+    //             margin-right: 1em;
+    //             // Extend label width regardless of font-size
+    //             width: 70px;
+    //         }
+    //         input {
+    //             // Set border to 1px solid gray
+    //             border: 1px solid rgba(0, 0, 0, 0.2);
+    //             border-radius: 999px;
+    //             height: 2em;
+    //             padding-left: 1em;
+    //             padding-right: 1em;
+    //             // Extend input width to fill the remaining space
+    //             flex: 1;
+    //         }
+    //         img {
+    //             position: absolute;
+    //             // align icon to the right
+    //             right: 1em;
+    //         }
+    //     }
+    //     #submit {
+    //         //align button to the center
+    //         margin: 0 auto;
+    //         // set width to fill the content;
+    //         width: fit-content;
+    //         // add padding
+    //         padding-left: 1em;
+    //         padding-right: 1em;
+    //         font-size: 14px;
+    //         font-weight: 500;
+    //         border-radius: 10px;
+    //         background: rgba(238, 237, 237, 1);
+    //         img {
+    //             margin-left: 5px;
+    //         }
+    //     }
+    // }
+    // table {
+    //     font-size: 10px;
+    //     font-weight: 500;
+    //     thead {
+    //         background-color: rgba(232, 241, 250, 1);
+    //         height: 43px;
+    //         // Remove gaps between th
+    //         border-collapse: collapse;
+    //         th {
+    //             // Set border to 1px solid black
+    //             border: 1px solid rgba(0, 0, 0, 0.2);
+    //             // set margin left right
+    //             padding-left: 5px;
+    //             padding-right: 5px;
+    //             // Remove margin;
+    //         }
+    //     }
+    //     td {
+    //         // Aign text center
+    //         text-align: center;
+    //         // Set bottom border;
+    //         border-bottom: 1px solid rgba(0, 0, 0, 0.8);
+    //     }
+    //     margin-bottom: 4em;
+    // }
 }
