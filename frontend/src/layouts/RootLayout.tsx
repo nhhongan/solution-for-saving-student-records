@@ -6,7 +6,7 @@ import { Outlet } from 'react-router-dom';
 import './RootLayout.css'
 
 const RootLayout: React.FC = () => {
-  const [open_sidebar, setOpenSidebar] = useState(false);
+  const [open_sidebar, setOpenSidebar] = useState(true);
   const [currentPage, setPage] = useState('');
   const new_user = {
     "id": "1",
@@ -23,7 +23,7 @@ const RootLayout: React.FC = () => {
         <Navbar user={new_user} openSidebar={()=>setOpenSidebar(true)} currentPage={currentPage}/>
         <Sidebar 
           user={new_user} 
-          open={open_sidebar} 
+          open={open_sidebar}
           handleClose={()=>setOpenSidebar(false)}
           onSelection={(page)=>handleSidebarSelection(page)}/>
         <main className='root-layout'>

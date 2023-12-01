@@ -1,6 +1,6 @@
 import React from 'react';
 import './Announcements.css';
-import Announcement from 'models/Announcement';
+import { Announcement } from 'types';
 
 interface AnnouncementsProps {
     title: string;
