@@ -53,4 +53,37 @@
             }
         }
     }
+    &.timetable {
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        thead {
+            th {
+                // Add left border for second th child and first child
+                &:nth-child(2), &:first-child {
+                    border-left: 1px solid black;
+                }
+                //right border for last th child
+                &:last-child {
+                    border-right: 1px solid black;
+                }
+            }
+        }
+        tbody {
+            td {
+                border-bottom: 1px solid #D9D9D9;
+                &:first-child {
+                    width: 5%;
+                    text-align: center;
+                    // Only set left, right and bottom border
+                    border-left: 1px solid black;
+                    border-right: 1px solid black;
+                    border-bottom: 1px solid black;
+                }
+                // Set background color for those has merge cell
+                &.course{
+                    border: 1px solid #D9D9D9;
+                    background-color: var(--primary-color);
+                }
+            }
+        }
+    }
 }

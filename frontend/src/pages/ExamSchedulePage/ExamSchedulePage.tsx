@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import filter_icon from "assets/images/filter-icon.svg";
 import caret_down from "assets/images/caret-down-solid.svg";
-import Table, { Row } from "components/Table/Table";
+import Table, { Row, TableType } from "components/Table/Table";
 
 const ExamSchedulePage: React.FC = () => {
   const [semester, setSemester] = useState("");
@@ -76,7 +76,8 @@ const ExamSchedulePage: React.FC = () => {
         </button>
       </form>
       <Table 
-        headers={["Course ID", "Course Name", "Exam Date", "Start Hour", "Room"]} 
+        headers={["Course ID", "Course Name", "Exam Date", "Start Hour", "Room"]}
+        type={TableType.Type1}
         contents={contents}/>
     </div>
   );

@@ -1,9 +1,17 @@
 import './Table.scss';
 
+export enum TableType {
+  Type1 = 'type-1',
+  Type2 = 'type-2',
+  Type3 = 'type-3',
+  TimeTable = 'timetable'
+}
+
 export type Col = {
   name: string,
   rowSpan: number,
 }
+
 export class Row {
   cols: Col[];
 
@@ -17,10 +25,13 @@ const days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
 type TableProps = {
     headers: string[],
     contents?: Row[],
+    type: TableType,
 }
-const Table: React.FC<TableProps> = ({headers, contents}) => {  
+    
+
+const Table: React.FC<TableProps> = ({headers, contents, type}) => {  
   return (
-    <table className='table type-1' cellSpacing={0}>
+    <table className={`table ${type}`} cellSpacing={0}>
       <thead>
         <tr>
           <th></th>
