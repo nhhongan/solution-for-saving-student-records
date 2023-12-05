@@ -1,6 +1,12 @@
+@import "assets/css/variables.scss";
+
+.table-wrapper {
+  overflow-x: auto;
+}
 .table {
   height: 100%;
   width: 100%;
+  // Scroll table horizontally when overflow
   thead {
     width: 100%;
     font-size: 10px;

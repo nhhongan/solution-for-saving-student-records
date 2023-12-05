@@ -133,5 +133,13 @@ form.input-form {
   width: $md;
   @media screen and (max-width: $md) {
       width: 100%;
+      .title {
+          font-size: 14px;
+      }
   };
+  .title {
+    font-size: 25px;
+    text-align: center;
+    margin-bottom: 3em;
+  }
 }
