@@ -91,7 +91,12 @@ const TimeTable = ({ }) => {
               <tr key={index}>
                 <td>{index + 1}</td>
                 {row.cols.map((col, index) => (
-                  <td className={col.name && "course"} key={index} rowSpan={col.rowSpan}>{col.name}</td>
+                  <td 
+                    className={col.name && "course"} 
+                    key={index} 
+                    rowSpan={col.rowSpan}>
+                    {col.name}
+                  </td>
                 ))}
               </tr>
             ))}

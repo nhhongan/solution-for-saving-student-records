@@ -17,13 +17,7 @@ interface Course {
 
 function TimeTablePage() {
     // create an array of days in a week with abbreviation
-    const [week, setWeek] = useState('');
     const [semester, setSemester] = useState('');
-    // setCourses(filteredCourses);
-    
-    const handleWeekChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setWeek(event.target.value);
-    };
 
     const handleSemesterChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setSemester(event.target.value);

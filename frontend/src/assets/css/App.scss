@@ -71,6 +71,13 @@ form.input-form {
           // Extend input width to fill the remaining space
           flex: 1;
       }
+      .checkbox {
+        display: flex;
+        align-items: center;
+        label {
+          margin-left: 5px;
+        }
+      }
       img {
           position: absolute;
           // align icon to the right
