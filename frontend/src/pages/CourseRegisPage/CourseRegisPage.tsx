@@ -61,7 +61,7 @@ function CourseRegisPage() {
     };
     
     return (
-        <div className="regis-page">
+        <div className="regis-page page">
             <form onSubmit={handleFilter} className='input-form'>
                 <div className='form-group' id='form-courseid'>
                     <label htmlFor="courseid">Course Id</label>

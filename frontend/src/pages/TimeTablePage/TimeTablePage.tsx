@@ -35,7 +35,7 @@ function TimeTablePage() {
     };
     
     return (
-        <div className="timetable-page">
+        <div className="timetable-page page">
             <form onSubmit={handleFilter} className='input-form'>
                 <div className='form-group' id='form-semester'>
                     <label htmlFor="semester">Semester</label>

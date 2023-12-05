@@ -1,3 +1,5 @@
+@import 'assets/css/variables.scss';
+
 main {
   min-height: 100vh;
   display: flex;
@@ -120,3 +122,9 @@ form.input-form {
   }
 }
 
+.page {
+  width: $md;
+  @media screen and (max-width: $md) {
+      width: 100%;
+  };
+}
