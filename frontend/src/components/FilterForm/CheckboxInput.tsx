@@ -9,7 +9,6 @@ interface CheckboxInputProps {
 }
 
 const CheckboxInput: React.FC<CheckboxInputProps> = ({id, label, currentvalue, value, handleValueChange}) => {
-  console.log(`${label}, ${currentvalue}, ${value}`)
   return (
     // JSX for your component goes here
     <div className="checkbox">

@@ -7,16 +7,22 @@ export enum TableType {
   TimeTable = 'timetable'
 }
 
+export enum RowType {
+  Standard = 'standard',
+  Aggregate = 'aggregate',
+}
 export type Col = {
   name: string,
   rowSpan: number,
+  colSpan?: number,
 }
 
 export class Row {
   cols: Col[];
-
-  constructor() {
+  type: RowType;
+  constructor(type: RowType = RowType.Standard) {
     this.cols = []
+    this.type = type;
   }
 }
 
@@ -41,16 +47,17 @@ const Table: React.FC<TableProps> = ({headers, contents, type}) => {
       </thead>
       <tbody>
         {contents?.map((row, index) => (
-          <tr key={index}>
-          <td>{index + 1}</td>
-          {row.cols.map((col, index) => (
-            <td 
-              className={col.name && "course"} 
-              key={index} 
-              rowSpan={col.rowSpan}>
-              {col.name}
-            </td>
-          ))}
+          <tr key={index} className={row.type}>
+            {row.type !== RowType.Aggregate && <td>{index + 1}</td>}
+            {row.cols.map((col, index) => ( 
+              <td 
+                className={col.name && "course"} 
+                key={index} 
+                rowSpan={col.rowSpan}
+                colSpan={col.colSpan}>
+                {col.name}
+              </td>
+            ))}
         </tr>
         ))}
       </tbody>
