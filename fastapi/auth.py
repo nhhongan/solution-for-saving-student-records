@@ -9,14 +9,15 @@ from models import User
 from passlib.context import CryptContext
 from fastapi.security import OAuth2PasswordRequestForm, OAuth2PasswordBearer
 from jose import jwt, JWTError
+from decouple import config
 
 router = APIRouter(
     prefix='/auth',
     tags=['auth']
 )
 
-SECRET_KEY = '84bkTmNEdGotmHGrA13a5kmC5dPHUO-JjMLhoF8xwog'
-ALGORITHM = 'HS256'
+SECRET_KEY = config("secret")
+ALGORITHM = config("algorithm")
 
 bcrypt_context = CryptContext(schemes=['bcrypt'], deprecated='auto')
 oauth2_bearer = OAuth2PasswordBearer(tokenUrl='auth/token')
