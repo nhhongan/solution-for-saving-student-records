@@ -1,9 +1,14 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import './LoginPage.css';
+import api from "../../api.js";
+import { UserContext } from "../../context/UserContext";
+
 
 const LoginPage: React.FC = () => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
+    const [errorMessage, setErrorMessage] = useState("");
+    const [, setToken] = useContext(UserContext);
 
     const handleUsernameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setUsername(event.target.value);
@@ -13,9 +18,28 @@ const LoginPage: React.FC = () => {
         setPassword(event.target.value);
     };
 
+    const submitLogin = async () => {
+        const requestOptions = {
+          method: "POST",
+          headers: { "Content-Type": "application/x-www-form-urlencoded" },
+          body: JSON.stringify(
+            `grant_type=&username=${username}&password=${password}&scope=&client_id=&client_secret=`
+          ),
+        };
+    
+        const response = await fetch("/auth/token", requestOptions);
+        const data = await response.json();
+    
+        if (!response.ok) {
+          setErrorMessage(data.detail);
+        } else {
+          setToken(data.access_token);
+        }
+    };
+
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        // TODO: Handle login logic here
+        submitLogin();
     };
 
     return (
