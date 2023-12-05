@@ -1,22 +1,12 @@
 import React, { useState } from "react";
-import filter_icon from "assets/images/filter-icon.svg";
-import caret_down from "assets/images/caret-down-solid.svg";
 import Table, { Row, TableType } from "components/Table/Table";
+import FilterForm from "components/FilterForm/FilterForm";
+import SelectInput from "components/FilterForm/SelectInput";
+import CheckboxInput, { CheckboxInputGroup } from "components/FilterForm/CheckboxInput";
 
 const ExamSchedulePage: React.FC = () => {
   const [semester, setSemester] = useState("");
   const [examination, setExamination] = useState<string>("midterm");
-
-  const handleSemesterChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setSemester(event.target.value);
-  };
-
-  const handleExaminationChange = (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    const _course = event.target.value;
-    setExamination(_course);
-  };
 
   const handleFilter = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -35,46 +25,27 @@ const ExamSchedulePage: React.FC = () => {
   }
   return (
     <div className="examschedule-page page">
-      <form onSubmit={handleFilter} className="input-form">
-        <div className="form-group" id="form-semester">
-          <label htmlFor="semester">Semester</label>
-          <input
-            type="text"
-            id="semester"
-            value={semester}
-            onChange={handleSemesterChange}
-          />
-          <img src={caret_down} alt="test" />
-        </div>
-        <div className="form-group" id="form-examination">
-          <label htmlFor="midtermCheckbox">Examniation</label>
-          <div className="checkbox">
-            <input
-              type="checkbox"
-              id="midtermCheckbox"
-              value="midterm"
-              onChange={handleExaminationChange}
-              checked={examination === "midterm"}
-            />
-            <label htmlFor="finalCheckbox">Midterm</label>
-          </div>
-
-          <div className="checkbox">
-            <input
-              type="checkbox"
-              id="finalCheckbox"
-              value="final"
-              onChange={handleExaminationChange}
-              checked={examination === "final"}
-            />
-            <label htmlFor="course2">Final</label>
-          </div>
-        </div>
-        <button id="submit" type="submit">
-          Filter
-          <img src={filter_icon} alt="test" />
-        </button>
-      </form>
+      <FilterForm>
+        <SelectInput
+          id="semester"
+          label="Semester"
+          handleValueChange={(e) => setSemester(e.target.value)} 
+          value={semester}/>
+        <CheckboxInputGroup id={"examination"} label={"Examination"}>
+          <CheckboxInput 
+            id="midterm" 
+            currentvalue={examination}
+            value="midterm" 
+            label="Midterm"
+            handleValueChange={(value) => setExamination(value)}/>
+          <CheckboxInput 
+            id="final" 
+            currentvalue={examination}
+            value="final" 
+            label="Final"
+            handleValueChange={(value) => setExamination(value)}/>
+        </CheckboxInputGroup>
+      </FilterForm>
       <Table 
         headers={["Course ID", "Course Name", "Exam Date", "Start Hour", "Room"]}
         type={TableType.Type1}

@@ -1,8 +1,8 @@
-import './CourseRegisPage.scss'
-import React, { useState } from 'react';
-import filter_icon from 'assets/images/filter-icon.svg';
-import caret_down from 'assets/images/caret-down-solid.svg';
+import { useState } from 'react';
 import check_icon from 'assets/images/square-check-solid 1.svg';
+import SelectInput from 'components/FilterForm/SelectInput';
+import FilterForm from 'components/FilterForm/FilterForm';
+import TextInput from 'components/FilterForm/TextInput';
 
 interface Course {
     id: string;
@@ -45,37 +45,21 @@ function CourseRegisPage() {
     const [courseid, setCourseId] = useState('');
     const [faculty, setFaculty] = useState('');
     const [courses, setCourses] = useState<Course[]>(filteredCourses);
-    // setCourses(filteredCourses);
-    
-    const handleCourseIdChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setCourseId(event.target.value);
-    };
-
-    const handleFacultyChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setFaculty(event.target.value);
-    };
-
-    const handleFilter = (event: React.FormEvent<HTMLFormElement>) => {
-        event.preventDefault();
-        // TODO: Fetch courses based on filters
-    };
     
     return (
         <div className="regis-page page">
-            <form onSubmit={handleFilter} className='input-form'>
-                <div className='form-group' id='form-courseid'>
-                    <label htmlFor="courseid">Course Id</label>
-                    <input type="text" id="courseid" value={courseid} onChange={handleCourseIdChange} />
-                </div>
-                <div className='form-group' id='form-faculty'>
-                    <label htmlFor="faculty">Faculty</label>
-                    <input type="text" id="faculty" value={faculty} onChange={handleFacultyChange} />
-                    <img src={caret_down} alt="test" />
-                </div>
-                <button id='submit' type="submit">
-                    Filter<img src={filter_icon} alt="test" />
-                </button>
-            </form>
+            <FilterForm>
+                <TextInput 
+                    id={'course'} 
+                    label="Course Id"
+                    value={courseid} 
+                    handleValueChange={(e)=>setCourseId(e.target.value)} />
+                <SelectInput 
+                    id={'faculty'} 
+                    label="Faculty"
+                    value={faculty} 
+                    handleValueChange={(e)=>setFaculty(e.target.value)} />
+            </FilterForm>
             <form className='course-regis-table input-form'>    
                 {courses ? (
                     <table cellSpacing={0}>
@@ -108,7 +92,7 @@ function CourseRegisPage() {
                     <p>No courses found.</p>
                 )}
                 <button id='submit' type="submit">
-                        Save Registration<img src={check_icon} alt="check icon" />
+                    Save Registration<img src={check_icon} alt="check icon" />
                 </button>
             </form>
         </div>
