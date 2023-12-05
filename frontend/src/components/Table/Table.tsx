@@ -20,7 +20,6 @@ export class Row {
   }
 }
 
-const days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
 
 type TableProps = {
     headers: string[],
