@@ -1,5 +1,5 @@
 import './assets/css/App.css';
-import {BrowserRouter, Route, Routes} from 'react-router-dom'
+import {BrowserRouter, Route, Routes} from 'react-router-dom';
 import HomePage from './pages/HomePage/HomePage';
 import CourseRegisPage from './pages/CourseRegisPage/CourseRegisPage';
 import LoginPage from 'pages/Login/LoginPage';
