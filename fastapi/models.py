@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Boolean, Integer, String, VARCHAR, ForeignKey
+from sqlalchemy import Column, Integer, String, VARCHAR, ForeignKey, Float, DateTime, PrimaryKeyConstraint
 from database import Base
 
 class User(Base):
@@ -15,18 +15,54 @@ class Student(Base):
     sid = Column(VARCHAR, primary_key=True, index=True)
     sname = Column(String, nullable=False)
     scholarship_id = Column(Integer)
-    major_id = Column(Integer, nullable = False)
+    major_name = Column(String, ForeignKey('major.major_name'))
 
-    #   Major INT NOT NULL,
-    #   username INT NOT NULL,
-    #   password INT NOT NULL,
-    #   Student_ID INT NOT NULL,
-    #   Course_program_ID INT NOT NULL,
-    #   Scholarship_ID INT NOT NULL,
-    #   PRIMARY KEY (Student_ID),
-    #   UNIQUE (username),
-    #   UNIQUE (Scholarship_ID)
+class Course(Base):
+    __tablename__ = 'course'
 
-# class Major(Base):
-#     pass
+    cid = Column(VARCHAR, primary_key=True, index=True)
+    major_id = Column(String, ForeignKey('major.major_id'))
+    cname = Column(String, nullable=False)
+    credit = Column(Integer)
+    fee = Column(Float)
+
+
+class Major(Base):
+    __tablename__ = 'major'
+
+    major_id = Column(String, primary_key=True, index=True)
+    major_name = Column(String)
+
+
+
+class Class(Base):
+    __tablename__ = 'class'
+
+    class_id = Column(Integer, primary_key=True)
+    cid = Column(VARCHAR, ForeignKey('course.cid'))
+    day = Column(DateTime)
+    room = Column(String)
+    PrimaryKeyConstraint(class_id, day, room)
+
+
+class Enrollment(Base):
+    __tablename__ = 'enrollment'
+
+    sid = Column(VARCHAR, ForeignKey('student.sid'))
+    cid = Column(VARCHAR, ForeignKey('course.cid'))
+    inclass = Column(Integer)
+    midterm = Column(Integer)
+    final = Column(Integer)
+    gpa = Column(Integer)
+
+
+class Scholarship(Base):
+    __tablename__ = 'scholarship'
+
+    id = Column(Integer, primary_key=True)
+    percentage_discount = Column(Float, nullable=False)
+    description = Column(String)
+
+    
+
 
