@@ -10,6 +10,7 @@ from passlib.context import CryptContext
 from fastapi.security import OAuth2PasswordRequestForm, OAuth2PasswordBearer
 from jose import jwt, JWTError
 from decouple import config
+from decouple import config
 
 router = APIRouter(
     prefix='/auth',
@@ -17,7 +18,7 @@ router = APIRouter(
 )
 
 SECRET_KEY = config("secret")
-ALGORITHM = config("algorithm")
+ALGORITHM = config("algorithm", default="HS256")
 
 bcrypt_context = CryptContext(schemes=['bcrypt'], deprecated='auto')
 oauth2_bearer = OAuth2PasswordBearer(tokenUrl='auth/token')
@@ -38,8 +39,13 @@ def get_db():
     finally:
         db.close()
 
+
 @router.post('/', status_code=status.HTTP_201_CREATED)
 async def create_user(create_user_request: CreateUserRequest, db: Session = Depends(get_db)):
+    user = authenticate_user(create_user_request.username, create_user_request.password, db)
+    if user:
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST,
+                            detail='Username already exists')
     create_user_model = User(
         username = create_user_request.username,
         password = bcrypt_context.hash(create_user_request.password),
@@ -47,10 +53,12 @@ async def create_user(create_user_request: CreateUserRequest, db: Session = Depe
     )
     db.add(create_user_model)
     db.commit()
+    return {"message": "User created successfully"}
 
-@router.post("/token", response_model=Token)
-async def login_for_access_token(form_data: OAuth2PasswordRequestForm = Depends(),
-                                 db: Session = Depends(get_db)):
+@router.get("/token", response_model=Token)
+async def login_for_access_token(
+        form_data: OAuth2PasswordRequestForm = Depends(),
+        db: Session = Depends(get_db)):
     user = authenticate_user(form_data.username, form_data.password, db)
     if not user:
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED,
@@ -58,7 +66,6 @@ async def login_for_access_token(form_data: OAuth2PasswordRequestForm = Depends(
     token = create_access_token(user.username, user.user_id, timedelta(minutes=20))
 
     return {'access_token': token, 'token_type': 'bearer'}
-
 
 def authenticate_user(username: str, password: str, db):
     user = db.query(User).filter(User.username == username).first()

@@ -33,12 +33,10 @@ class Major(Base):
     major_id = Column(String, primary_key=True, index=True)
     major_name = Column(String)
 
-
-
 class Class(Base):
     __tablename__ = 'class'
 
-    class_id = Column(Integer, primary_key=True)
+    class_id = Column(Integer)
     cid = Column(VARCHAR, ForeignKey('course.cid'))
     day = Column(DateTime)
     room = Column(String)
@@ -54,6 +52,7 @@ class Enrollment(Base):
     midterm = Column(Integer)
     final = Column(Integer)
     gpa = Column(Integer)
+    PrimaryKeyConstraint(sid, cid)
 
 
 class Scholarship(Base):

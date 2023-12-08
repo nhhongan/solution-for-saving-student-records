@@ -7,6 +7,7 @@ import models
 import auth
 from fastapi.middleware.cors import CORSMiddleware
 from auth import get_current_user
+from fastapi import HTTPException
 
 app = FastAPI()
 app.include_router(auth.router)
@@ -54,6 +55,27 @@ async def create_student(student: StudentModel, db: Session = Depends(get_db)):
 async def read_student(db: Session = Depends(get_db), skip: int = 0, limit: int = 100):
     students = db.query(models.Student).offset(skip).limit(limit).all()
     return students
+
+# @app.post("/signup", status_code=status.HTTP_201_CREATED)
+# async def signup(username: str, password: str, db: Session = Depends(get_db)):
+#     user = auth.authenticate_user(username, password, db)
+#     if user:
+#         raise HTTPException(status_code=400, detail='Username already exists')
+#     hashed_password = auth.get_password_hash(password)
+#     new_user = models.User(username=username, password=hashed_password)
+#     db.add(new_user)
+#     db.commit()
+#     db.refresh(new_user)
+#     return {"message": "User registered successfully"}
+
+
+# @app.get("/login", status_code=status.HTTP_200_OK)
+# async def login(username: str, password: str, db: Session = Depends(get_db)):
+#     user = db.query(models.User).filter(models.User.username == username).first()
+#     if user is None or not auth.verify_password(password, user.password):
+#         raise HTTPException(status_code=401, detail='Invalid username or password')
+#     return {"message": "Login successful"}
+
 
 @app.get("/", status_code=status.HTTP_200_OK)
 async def user(user: dict = Depends(get_current_user), db: Session = Depends(get_db)):
