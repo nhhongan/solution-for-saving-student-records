@@ -1,11 +1,12 @@
-import React, { useState, useContext } from "react";
+import React, { useState } from "react";
 import "./LoginPage.css";
-import axios from "axios";
+import { logIn } from "api";
+import { useNavigate } from "react-router-dom";
 
 const LoginPage: React.FC = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-
+  const navigate = useNavigate();
   const handleUsernameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setUsername(event.target.value);
   };
@@ -15,18 +16,16 @@ const LoginPage: React.FC = () => {
   };
 
   const submitLogin = async () => {
-    const user = {
-      username: username,
-      password: password,
-    };
-    await axios
-      .post(process.env.API_ENDPOINt+"/token" as string, user)
+    await logIn("/auth/token", username, password)
       .then((res) => {
         if (res.status === 200) {
-          localStorage.setItem("token", res.data.token);
+          localStorage.setItem("user", JSON.stringify(res.data));
+          // Navigate to home page using React Router
+          navigate('/')
         }
       })
       .catch((err) => {
+        alert(err);
         console.error(err);
       });
   };

@@ -1,5 +1,5 @@
-import React from 'react';
-import './Sidebar.css'
+import React, { useEffect } from 'react';
+import './Sidebar.scss'
 import { Link, NavLink } from 'react-router-dom';
 // Icons
 import home_icon from 'assets/images/Home.svg'
@@ -9,7 +9,6 @@ import exam_icon from 'assets/images/Bookmark.svg'
 import fee_icon from 'assets/images/Money.svg'
 import program_icon from 'assets/images/Program.svg'
 import marks_icon from 'assets/images/ListCheck.svg'
-import prequesite_icon from 'assets/images/Layer.svg'
 import profile_icon from 'assets/images/Profile.svg'
 import User from 'models/User';
 
@@ -21,6 +20,16 @@ type SidebarProps = {
 }
 
 const Sidebar: React.FC<SidebarProps> = ({ open = false, user, onSelection, handleClose }) => {
+    const [name, setName] = React.useState('');
+    const [sid, setSid] = React.useState('');
+    useEffect(() => {
+        const user = localStorage.getItem('user');
+        if (user) {
+            const userObj = JSON.parse(user);
+            setName(userObj.name);
+            setSid(userObj.sid);
+        }
+    })
     const pages = [
         {
         "name": "Home Page",
@@ -57,11 +66,11 @@ const Sidebar: React.FC<SidebarProps> = ({ open = false, user, onSelection, hand
         "link": "/student-marks",
         "image": marks_icon
         },
-        {
-        "name": "Prequesite subjects",
-        "link": "/prequesite-subjects",
-        "image": prequesite_icon
-        },
+        // {
+        // "name": "Prequesite subjects",
+        // "link": "/prequesite-subjects",
+        // "image": prequesite_icon
+        // },
         {
         "name": "User profile",
         "link": "/profile",
@@ -89,12 +98,17 @@ const Sidebar: React.FC<SidebarProps> = ({ open = false, user, onSelection, hand
                 </div>
                 {user ? 
                 <div className='bottom profile'>
-                    <p className="name">{"Chau An Phu"}</p>
-                    <p className="id">{"ITDSIU22158"}</p>
+                    <p className="name">{name}</p>
+                    <p className="id">{sid}</p>
+                    <Link to="/login" id="btn-logout" onClick={()=>{
+                        localStorage.removeItem('user');
+                        handleClose();
+                    }}>Logout</Link>
                 </div> : 
                 <div className='bottom login'>
                     <Link to="/login">Login</Link>
-                </div>}
+                </div>
+                }
             </div>
             {open && <div className="sidebar-cover" onClick={handleClose} />}
         </>

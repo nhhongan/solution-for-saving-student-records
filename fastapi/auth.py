@@ -29,6 +29,8 @@ class CreateUserRequest(BaseModel):
     sid: str
 
 class Token(BaseModel):
+    username: str
+    sid: str
     access_token: str
     token_type: str
 
@@ -55,7 +57,7 @@ async def create_user(create_user_request: CreateUserRequest, db: Session = Depe
     db.commit()
     return {"message": "User created successfully"}
 
-@router.get("/token", response_model=Token)
+@router.post("/token", response_model=Token)
 async def login_for_access_token(
         form_data: OAuth2PasswordRequestForm = Depends(),
         db: Session = Depends(get_db)):
@@ -65,7 +67,12 @@ async def login_for_access_token(
                             detail='Could not validate user')
     token = create_access_token(user.username, user.user_id, timedelta(minutes=20))
 
-    return {'access_token': token, 'token_type': 'bearer'}
+    return {
+        'username': user.username,
+        'sid': user.sid,
+        'access_token': token, 
+        'token_type': 'bearer'
+    }
 
 def authenticate_user(username: str, password: str, db):
     user = db.query(User).filter(User.username == username).first()

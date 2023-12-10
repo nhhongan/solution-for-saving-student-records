@@ -13,34 +13,35 @@ interface Course {
     lecturer: string
 }
 
+const filteredCourses: Course[] = [
+    {
+        id: "CSE101",
+        name: "Introduction to Computer Science",
+        credits: 3,
+        slots: 50,
+        description: "An introduction to the fundamental concepts of computer science.",
+        lecturer: "John Doe"
+    },
+    {
+        id: "MTH201",
+        name: "Calculus I",
+        credits: 4,
+        slots: 40,
+        description: "A course on differential and integral calculus.",
+        lecturer: "Jane Smith"
+    },
+    {
+        id: "ENG101",
+        name: "English Composition",
+        credits: 3,
+        slots: 30,
+        description: "A course on writing and composition.",
+        lecturer: "Bob Johnson"
+    }
+];
+
 function CourseRegisPage() {
     // Create a list of courses
-    const filteredCourses: Course[] = [
-        {
-            id: "CSE101",
-            name: "Introduction to Computer Science",
-            credits: 3,
-            slots: 50,
-            description: "An introduction to the fundamental concepts of computer science.",
-            lecturer: "John Doe"
-        },
-        {
-            id: "MTH201",
-            name: "Calculus I",
-            credits: 4,
-            slots: 40,
-            description: "A course on differential and integral calculus.",
-            lecturer: "Jane Smith"
-        },
-        {
-            id: "ENG101",
-            name: "English Composition",
-            credits: 3,
-            slots: 30,
-            description: "A course on writing and composition.",
-            lecturer: "Bob Johnson"
-        }
-    ];
     
     const [courseid, setCourseId] = useState('');
     const [faculty, setFaculty] = useState('');
