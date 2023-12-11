@@ -1,6 +1,20 @@
 <h1>USAGE</h1>
 
 **By default, all requests require the `student_id`. Additional parameters will be mentioned seperately.**
+
+<h2>Log In</h2>
+
+### ⛔ **POST**
+
+> Input: Form Data
+> - `username`
+> - `password`
+
+> Return: List of Courses
+> - `Student Name`
+> - `Student ID `
+> - `Token`
+
 <h2>Course Registration</h2>
 
 ### ✅ **GET**
