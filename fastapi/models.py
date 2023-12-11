@@ -38,7 +38,11 @@ class Class(Base):
 
     class_id = Column(Integer)
     cid = Column(VARCHAR, ForeignKey('course.cid'))
-    day = Column(DateTime)
+    day = Column(String)
+    start_period = Column(Integer)
+    end_period = Column(Integer)
+    start_date = Column(DateTime)
+    end_date = Column(DateTime)
     room = Column(String)
     PrimaryKeyConstraint(class_id, day, room)
 
@@ -47,12 +51,12 @@ class Enrollment(Base):
     __tablename__ = 'enrollment'
 
     sid = Column(VARCHAR, ForeignKey('student.sid'))
-    cid = Column(VARCHAR, ForeignKey('course.cid'))
+    class_id = Column(VARCHAR, ForeignKey('class.class_id'))
     inclass = Column(Integer)
     midterm = Column(Integer)
     final = Column(Integer)
     gpa = Column(Integer)
-    PrimaryKeyConstraint(sid, cid)
+    PrimaryKeyConstraint(sid, class_id)
 
 
 class Scholarship(Base):
@@ -79,4 +83,5 @@ class Teach(Base):
     room = Column(String)
     pid = Column(Integer)
     pname = Column(String)
+    PrimaryKeyConstraint(pid, class_id)
 

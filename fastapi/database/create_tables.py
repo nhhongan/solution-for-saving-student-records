@@ -93,8 +93,12 @@ def create_class_table():
         class_id INTEGER,
         cid VARCHAR,
         cname TEXT NOT NULL,
-        day DATETIME NOT NULL,
+        day TEXT NOT NULL,
         room TEXT NOT NULL,
+        start_period INTEGER NOT NULL,
+        end_period INTEGER NOT NULL,
+        start_date DATETIME NOT NULL,
+        end_date DATETIME NOT NULL,
         professor_name TEXT NOT NULL,
         FOREIGN KEY(cid) REFERENCES course(cid),
         FOREIGN KEY(cname) REFERENCES course(cname),
@@ -140,14 +144,14 @@ def create_enrollment_table():
     cursor.execute("""
         CREATE TABLE IF NOT EXISTS enrollment (
         sid VARCHAR,
-        cid VARCHAR,
+        class_id INTEGER,
         inclass INTEGER NOT NULL,
         midterm INTEGER NOT NULL,
         final INTEGER NOT NULL,
         gpa INTEGER NOT NULL,
-        PRIMARY KEY(sid, cid),
+        PRIMARY KEY(sid, class_id),
         FOREIGN KEY(sid) REFERENCES student(sid),
-        FOREIGN KEY(cid) REFERENCES course(cid)
+        FOREIGN KEY(class_id) REFERENCES class(class_id)
     )
     """)
     connection.commit()
