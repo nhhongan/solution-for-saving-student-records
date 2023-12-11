@@ -1,0 +1,8 @@
+/* FILEPATH: /d:/Projects/pdm-app/src/layouts/Footer/Footer.css */
+
+footer {
+    background-color: var(--primary-color);
+    color: #fff;
+    padding: 5px;
+    text-align: center;
+}
