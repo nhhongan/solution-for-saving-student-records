@@ -38,13 +38,13 @@ def drop_class_table():
 
 drop_class_table()
 
-def drop_enroll_table():
-    connection = create_connection()
-    cursor = connection.cursor()
-    cursor.execute("""
-        DROP TABLE IF EXISTS enrollment;
-    """)
-    connection.commit()
-    connection.close()
+# def drop_enroll_table():
+#     connection = create_connection()
+#     cursor = connection.cursor()
+#     cursor.execute("""
+#         DROP TABLE IF EXISTS enrollment;
+#     """)
+#     connection.commit()
+#     connection.close()
 
-drop_enroll_table()
+# drop_enroll_table()

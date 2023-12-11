@@ -95,6 +95,7 @@ def create_class_table():
         cname TEXT NOT NULL,
         day TEXT NOT NULL,
         room TEXT NOT NULL,
+        slot INTEGER NOT NULL,
         start_period INTEGER NOT NULL,
         end_period INTEGER NOT NULL,
         start_date DATETIME NOT NULL,
