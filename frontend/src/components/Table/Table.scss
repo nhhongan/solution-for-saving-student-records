@@ -69,6 +69,19 @@
       }
     }
   }
+  &.type-3 {
+    thead {
+      th {
+        background-color: $primary-color-dark;
+        color: white;
+      }
+    }
+    tbody {
+      td {
+        border-bottom: 2px solid gray;
+      }
+    }
+  }
   &.timetable {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
     thead {

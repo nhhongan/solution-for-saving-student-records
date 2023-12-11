@@ -29,7 +29,7 @@ const Sidebar: React.FC<SidebarProps> = ({ open = false, user, onSelection, hand
             setName(userObj.name);
             setSid(userObj.sid);
         }
-    })
+    },[name])
     const pages = [
         {
         "name": "Home Page",

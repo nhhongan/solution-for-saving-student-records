@@ -41,7 +41,7 @@ form.input-form {
   margin-top: 2em;
   width: 100%;
   margin-right: 1em;
-  margin-bottom: 4em;
+  margin-bottom: 3rem;
   // align item to the center
   display: flex;
   flex-direction: column;
@@ -130,8 +130,8 @@ form.input-form {
 }
 
 .page {
-  width: $md;
-  @media screen and (max-width: $md) {
+  width: $lg;
+  @media screen and (max-width: $lg) {
       width: 100%;
       .title {
           font-size: 14px;

@@ -10,6 +10,7 @@ import RootLayout from 'layouts/RootLayout';
 import Footer from 'layouts/Footer/Footer';
 import FeePage from 'pages/FeePage/FeePage';
 import CourseProgramPage from 'pages/CourseProgramPage/CourseProgramPage';
+import MarksPage from 'pages/MarksPage/MarksPage';
 
 export const ProtectedRoute = () => {
   const location = useLocation();
@@ -37,7 +38,8 @@ function App() {
             <Route path='/examination-schedule' element={<ExamSchedulePage />}/>
             <Route path='/school-fee' element={<FeePage />}/>
             <Route path='/course-program' element={<CourseProgramPage />}/>
-          </Route>
+            <Route path='/student-marks' element={<MarksPage />}/>
+            </Route>
           <Route path='/login' element={<PublicRoute />} />
         </Routes>
         <Footer/>
