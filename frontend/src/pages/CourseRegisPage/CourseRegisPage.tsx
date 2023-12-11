@@ -3,6 +3,7 @@ import check_icon from 'assets/images/square-check-solid 1.svg';
 import SelectInput from 'components/FilterForm/SelectInput';
 import FilterForm from 'components/FilterForm/FilterForm';
 import TextInput from 'components/FilterForm/TextInput';
+import Table, { Row, TableType } from 'components/Table/Table';
 
 interface Course {
     id: string;
@@ -40,13 +41,24 @@ const filteredCourses: Course[] = [
     }
 ];
 
+const headers = ['Course Id', 'Course Name', 'Credits', 'Slots', 'Description', 'Lecturers']
 function CourseRegisPage() {
     // Create a list of courses
     
     const [courseid, setCourseId] = useState('');
     const [faculty, setFaculty] = useState('');
-    const [courses, setCourses] = useState<Course[]>(filteredCourses);
     
+    const contents: Row[] = []
+    for (const course of filteredCourses) {
+        const row = new Row();
+        row.cols.push({name: course.id, rowSpan: 1});
+        row.cols.push({name: course.name, rowSpan: 1});
+        row.cols.push({name: course.credits.toString(), rowSpan: 1});
+        row.cols.push({name: course.slots.toString(), rowSpan: 1});
+        row.cols.push({name: course.description, rowSpan: 1});
+        row.cols.push({name: course.lecturer, rowSpan: 1});
+        contents.push(row);
+    }
     return (
         <div className="regis-page page">
             <FilterForm>
@@ -61,41 +73,12 @@ function CourseRegisPage() {
                     value={faculty} 
                     handleValueChange={(e)=>setFaculty(e.target.value)} />
             </FilterForm>
-            <form className='course-regis-table input-form'>    
-                {courses ? (
-                    <table cellSpacing={0}>
-                        <thead>
-                            <tr>
-                                <th></th>
-                                <th>Course Id</th>
-                                <th>Course Name</th>
-                                <th>Credits</th>
-                                <th>Slots</th>
-                                <th>Description</th>
-                                <th>Lecturers</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {courses.map((course, index) => (
-                                <tr key={index}>
-                                    <td><input type="checkbox"/></td>
-                                    <td>{course.id}</td>
-                                    <td>{course.name}</td>
-                                    <td>{course.credits}</td>
-                                    <td>{course.slots}</td>
-                                    <td>{course.description}</td>
-                                    <td>{course.lecturer}</td>
-                                </tr>
-                            ))}
-                        </tbody>
-                    </table>
-                ) : (
-                    <p>No courses found.</p>
-                )}
+            <FilterForm >
+                <Table headers={headers} type={TableType.EDITABLE} contents={contents}/>
                 <button id='submit' type="submit">
                     Save Registration<img src={check_icon} alt="check icon" />
                 </button>
-            </form>
+            </FilterForm>
         </div>
     );
 }

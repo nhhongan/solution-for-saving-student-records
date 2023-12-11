@@ -1,6 +1,7 @@
 @import "assets/css/variables.scss";
 
 .table-wrapper {
+  width: 100%;
   overflow-x: auto;
 }
 .table {
@@ -80,6 +81,30 @@
       td {
         border-bottom: 2px solid gray;
       }
+    }
+  }
+  &.editable {
+    thead {
+      background-color: rgba(232, 241, 250, 1);
+      height: 43px;
+      // Remove gaps between th
+      border-collapse: collapse;
+      th {
+        // Set border to 1px solid black
+        border: 1px solid rgba(0, 0, 0, 0.2);
+        // set margin left right
+        padding-left: 5px;
+        padding-right: 5px;
+        // Remove margin;
+      }
+    }
+    td {
+      // Aign text center
+      text-align: center;
+      // Set bottom border;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.8);
+      //Increase row height
+      height: 50px;
     }
   }
   &.timetable {

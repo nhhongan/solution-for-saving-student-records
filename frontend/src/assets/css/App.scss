@@ -46,6 +46,11 @@ form.input-form {
   display: flex;
   flex-direction: column;
   align-items: center;
+  .input-wrapper {
+    display: flex;  
+    // flex overflow
+    flex-wrap: wrap;
+  }
   .form-group {
       margin-bottom: 1em;
       display: flex;
