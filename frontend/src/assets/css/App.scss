@@ -70,6 +70,9 @@ form.input-form {
           padding-right: 1em;
           // Extend input width to fill the remaining space
           flex: 1;
+          &:read-only {
+              background-color: rgba(238, 237, 237, 1);
+          }
       }
       .checkbox {
         display: flex;

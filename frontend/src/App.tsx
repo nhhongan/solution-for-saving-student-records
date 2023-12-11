@@ -11,6 +11,7 @@ import Footer from 'layouts/Footer/Footer';
 import FeePage from 'pages/FeePage/FeePage';
 import CourseProgramPage from 'pages/CourseProgramPage/CourseProgramPage';
 import MarksPage from 'pages/MarksPage/MarksPage';
+import ProfilePage from 'pages/ProfilePage/ProfilePage';
 
 export const ProtectedRoute = () => {
   const location = useLocation();
@@ -39,6 +40,7 @@ function App() {
             <Route path='/school-fee' element={<FeePage />}/>
             <Route path='/course-program' element={<CourseProgramPage />}/>
             <Route path='/student-marks' element={<MarksPage />}/>
+            <Route path='/profile' element={<ProfilePage />}/>
             </Route>
           <Route path='/login' element={<PublicRoute />} />
         </Routes>
