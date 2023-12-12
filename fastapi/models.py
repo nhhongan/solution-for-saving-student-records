@@ -39,6 +39,7 @@ class Class(Base):
     class_id = Column(Integer)
     cid = Column(VARCHAR, ForeignKey('course.cid'))
     day = Column(String)
+    slot = Column(Integer)
     start_period = Column(Integer)
     end_period = Column(Integer)
     start_date = Column(DateTime)
