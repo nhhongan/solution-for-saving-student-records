@@ -12,8 +12,9 @@ def create_student_table():
         sid VARCHAR PRIMARY KEY,
         sname TEXT NOT NULL,
         scholarship_id INTEGER,
-        major_name TEXT NOT NULL,
-        FOREIGN KEY(scholarship_id) REFERENCES scholarship(scholarship_id)
+        major_id TEXT NOT NULL,
+        FOREIGN KEY(scholarship_id) REFERENCES scholarship(scholarship_id),
+        FOREIGN KEY(major_id) REFERENCES major(major_id)
     )
     """)
     connection.commit()

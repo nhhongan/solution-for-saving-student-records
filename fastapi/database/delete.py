@@ -27,16 +27,16 @@ def create_connection():
 
 # drop_student_table()
 
-def drop_class_table():
-    connection = create_connection()
-    cursor = connection.cursor()
-    cursor.execute("""
-        DROP TABLE IF EXISTS class;
-    """)
-    connection.commit()
-    connection.close()
+# def drop_class_table():
+#     connection = create_connection()
+#     cursor = connection.cursor()
+#     cursor.execute("""
+#         DROP TABLE IF EXISTS class;
+#     """)
+#     connection.commit()
+#     connection.close()
 
-drop_class_table()
+# drop_class_table()
 
 # def drop_enroll_table():
 #     connection = create_connection()
