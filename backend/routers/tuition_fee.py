@@ -56,7 +56,6 @@ async def get_classes_of_student(sid: str, semester: str, db: Session = Depends(
         course_fee_after_discount = course_fee * (1 - discount_percentage / 100)
         total_fee += course_fee_after_discount
 
-
         tuition_fee_entry = TuitionFee(
             cid=class_.course.cid,
             class_id=enrollment.class_id,
@@ -65,8 +64,6 @@ async def get_classes_of_student(sid: str, semester: str, db: Session = Depends(
             semester=class_.semester,
             fee=course_fee,
         )
-
         response_classes.append(tuition_fee_entry)
     
-
     return TuitionFeeResponse(tuition_fees=response_classes, total_fee=total_fee)
