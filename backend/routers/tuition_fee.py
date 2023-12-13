@@ -51,7 +51,6 @@ async def get_classes_of_student(sid: str, semester: str, db: Session = Depends(
         credits = class_.course.credit if class_.course else "N/A"
         course_fee = class_.course.fee if class_.course else 0
 
-        # Calculate discounted fee based on scholarship percentage
         discount_percentage = scholarship.percentage_discount if scholarship else 0
         course_fee_after_discount = course_fee * (1 - discount_percentage / 100)
         total_fee += course_fee_after_discount
