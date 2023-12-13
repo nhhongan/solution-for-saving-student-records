@@ -101,6 +101,7 @@ def create_class_table():
         start_date DATETIME NOT NULL,
         end_date DATETIME NOT NULL,
         professor_name TEXT NOT NULL,
+        semester TEXT NOT NULL,
         FOREIGN KEY(cid) REFERENCES course(cid),
         FOREIGN KEY(cname) REFERENCES course(cname),
         FOREIGN KEY(professor_name) REFERENCES professor(pname),

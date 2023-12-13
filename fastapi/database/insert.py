@@ -56,18 +56,19 @@ def insert_class_data():
     connection = create_connection()
     cursor = connection.cursor()
     class_data = [
-        (1, 'IT069IU', 'Object-Oriented Programming' , 'WED', 'A2.407', 90, 4,6,datetime.date(2023, 9, 20), datetime.date(2024, 1, 10), 'T.T.Tung'),
-        (2, 'IT079IU', 'Principles of Database Management' , 'SAT', 'A1.109', 90, 7,9,datetime.date(2023, 9, 20), datetime.date(2024, 1, 10), 'N.T.T.Loan'),
-        (3, 'IT137IU', 'Data Analysis' , 'FRI', 'A2.205', 90, 4,6, datetime.date(2023, 9, 20), datetime.date(2024, 1, 10), 'N.T.Ky')
+        (1, 'IT069IU', 'Object-Oriented Programming' , 'WED', 'A2.407', 90, 4,6,datetime.date(2023, 9, 20), datetime.date(2024, 1, 10), 'T.T.Tung', '1-2324'),
+        (2, 'IT079IU', 'Principles of Database Management' , 'SAT', 'A1.109', 90, 7,9,datetime.date(2023, 9, 20), datetime.date(2024, 1, 10), 'N.T.T.Loan', '1-2324'),
+        (3, 'IT137IU', 'Data Analysis' , 'FRI', 'A2.205', 90, 4,6, datetime.date(2023, 9, 20), datetime.date(2024, 1, 10), 'N.T.Ky', '1-2324')
     ]
     cursor.executemany("""
-        INSERT INTO class (class_id, cid, cname, day, room, slot, start_period, end_period, start_date, end_date, professor_name)
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?,?, ?, ?);
+        INSERT INTO class (class_id, cid, cname, day, room, slot, start_period, end_period, start_date, end_date, professor_name, semester)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?,?, ?, ?, ?);
     """, class_data)
 
     connection.commit()
     connection.close()
 
+insert_class_data()
 def insert_enrollment_data():
     connection = create_connection()
     cursor = connection.cursor()
