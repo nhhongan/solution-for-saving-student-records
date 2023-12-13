@@ -1,11 +1,14 @@
 from sqlalchemy import Column, Integer, String, VARCHAR, ForeignKey, Float, DateTime, PrimaryKeyConstraint
 from database.__init__ import Base
+from sqlalchemy.orm import relationship
+
 
 class Class(Base):
     __tablename__ = 'class'
 
     class_id = Column(Integer)
     cid = Column(VARCHAR, ForeignKey('course.cid'))
+    cname = Column(String)
     day = Column(String)
     slot = Column(Integer)
     start_period = Column(Integer)
@@ -15,4 +18,9 @@ class Class(Base):
     room = Column(String)
     professor_name = Column(String)
     semester = Column(String)
-    PrimaryKeyConstraint(class_id, day, room)
+    
+    course = relationship("Course", back_populates="classes")
+
+    __table_args__ = (
+        PrimaryKeyConstraint(class_id, day, room),
+    )

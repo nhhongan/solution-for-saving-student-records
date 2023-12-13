@@ -1,10 +1,11 @@
 from typing import List
 from fastapi import APIRouter, HTTPException, Depends
 from sqlalchemy.orm import Session
+from sqlalchemy import and_
 from database.session import get_db
 from models.classes import Class
-from models.course import Course
 from models.enrollment import Enrollment
+from models.course import Course
 from pydantic import BaseModel
 
 
@@ -14,44 +15,50 @@ router = APIRouter(
 )
 
 class Timetable(BaseModel):
-    cid: str
+    class_id: str
     cname: str
     credits: int
     day: str
+    room: str
     start_period: int
     end_period: int
     start_date: str
     end_date: str
     pname: str
+    semester: str
 
     class Config:
         orm_mode = True
 
 
 @router.get('/{sid}', response_model=List[Timetable])
-async def get_classes_of_student(sid: str, db: Session = Depends(get_db)):
-    enrolled_class = db.query(Enrollment).filter(Enrollment.sid == sid).all()
-    course = db.query(Course).filter(Course.cid == cid).first()
-    classes = db.query(Class).filter(Class.cid == cid).all()
+async def get_classes_of_student(sid: str, semester: str,db: Session = Depends(get_db)):
+    query_result = (
+        db.query(Class, Enrollment)
+        .join(Enrollment, and_(Class.class_id == Enrollment.class_id, Enrollment.sid == sid))
+        .filter(Class.semester == semester)
+        .all()
+    )
 
-    if classes:
-        response_classes = [
-            CourseRegistration(
-                cid=class_.cid,
-                cname=course.cname,
-                credit=course.credit,
-                fee=course.fee,
-                slot=class_.slot,
-                pname=class_.professor_name,
-                day=class_.day,
-                room=class_.room,
-                start_period=class_.start_period,
-                end_period=class_.end_period,
-                start_date=class_.start_date,
-                end_date=class_.end_date,
-            )
-            for class_ in classes
-        ]
-        return response_classes
+    if not query_result:
+        raise HTTPException(status_code=404, detail=f"No classes found for semester {semester} for student {sid}")
 
-    raise HTTPException(status_code=404, detail=f"Classes with cid {cid} not found")
+    response_classes = []
+    for class_, enrollment in query_result:
+        credits = class_.course.credit if class_.course else "N/A"
+        timetable_entry = Timetable(
+            class_id=enrollment.class_id,
+            cname=class_.cname,
+            credits=credits,
+            day=class_.day,
+            room=class_.room,
+            start_period=class_.start_period,
+            end_period=class_.end_period,
+            start_date=class_.start_date,
+            end_date=class_.end_date,
+            pname=class_.professor_name,
+            semester=class_.semester,
+        )
+        response_classes.append(timetable_entry)
+
+    return response_classes
