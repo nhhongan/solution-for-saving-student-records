@@ -5,7 +5,7 @@ class Enrollment(Base):
     __tablename__ = 'enrollment'
 
     sid = Column(VARCHAR, ForeignKey('student.sid'))
-    class_id = Column(VARCHAR, ForeignKey('class.class_id'))
+    class_id = Column(Integer, ForeignKey('class.class_id'))
     inclass = Column(Integer)
     midterm = Column(Integer)
     final = Column(Integer)
