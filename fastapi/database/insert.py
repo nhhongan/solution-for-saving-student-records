@@ -24,10 +24,21 @@ def create_connection():
 
 # insert_student_data()
 
-# def insert_course_data():
-#     connection = create_connection()
-#     cursor = connection.cursor()
-#     course_data = [
+def insert_course_data():
+    connection = create_connection()
+    cursor = connection.cursor()
+    course_data = [
+        ('IT013IU','Data Structures and Algorithms', 'IT', 4, 5626000),
+        ('IT138IU','Data Science and Data Visualization', 'IT', 4, 5626000),
+        ('IT151IU','Statistical Methods', 'IT', 3, 4095960),
+        ('IT139IU','Scalable and Distributed Computing', 'IT', 4, 5626000),
+        ('IT140IU','Fundamental Concepts of Data Security', 'IT', 4, 5626000),
+        ('IT159IU','Artificial Intelligence', 'IT', 4, 5626000),
+        ('IT160IU','Data Mining', 'IT', 4, 5626000),
+        ('IT142IU','Analytics for Observational Data', 'IT', 4, 5626000),
+        ('IT161IU','Big Data Technology', 'IT', 4, 5626000),
+        ('IT146IU','Theory of Networks', 'IT', 4, 5626000),
+        ('IT147IU','Mobile Cloud Computing', 'IT', 4, 5626000)
 #         ('IT079IU', 'Principles of Database Management', 'IT' , 4, 5626000),
 #         ('IT069IU', 'Object-Oriented Programming', 'IT' , 4, 5626000),
 #         ('IT137IU', 'Data Analysis', 'IT' , 4, 5626000),
@@ -43,50 +54,59 @@ def create_connection():
 #         ('PE015IU', 'Philosophy of Marxism and Leninism', 'PE' , 3, 388410),
 #         ('IT149IU', 'Fundamentals of Programming', 'IT' , 4, 5626000),
 #         ('EN007IU', 'Writing AE1', 'EN' , 2, 1035760)
-#     ]
-#     cursor.executemany("""
-#         INSERT INTO course (cid, cname, major_id, credit, fee)
-#         VALUES (?, ?, ?, ?,?);
-#     """, course_data)
+     ]
+    cursor.executemany("""
+         INSERT INTO course (cid, cname, major_id, credit, fee)
+         VALUES (?, ?, ?, ?,?);
+     """, course_data)
 
-#     connection.commit()
-#     connection.close()
+    connection.commit()
+    connection.close()
+#insert_course_data()
 
 
+def insert_class_data():
+    connection = create_connection()
+    cursor = connection.cursor()
+    class_data = [
+        (1, 'IT069IU', 'Object-Oriented Programming' , 'WED', 'A2.407', 90, 4,6,datetime.date(2023, 9, 20), datetime.date(2024, 1, 10), 'Tran Thanh Tung', '1-2324'),
+        (2, 'IT079IU', 'Principles of Database Management' , 'SAT', 'A1.109', 90, 7,9,datetime.date(2023, 9, 20), datetime.date(2024, 1, 10), 'Nguyen Thi Thuy Loan', '1-2324'),
+        (3, 'IT137IU', 'Data Analysis' , 'FRI', 'A2.205', 90, 4,6, datetime.date(2023, 9, 20), datetime.date(2024, 1, 10), 'Nguyen Trung Ky', '1-2324'),
+        (4,'IT159IU','Artificial Intelligence', 'MON', 'A2.407', 90, 1,3,datetime.date(2023, 9, 20), datetime.date(2024, 1, 10), 'Tran Thanh Tung', '1-2324'),
+        (5,'IT160IU','Data Mining', 'TUE', 'A2.507', 90, 1,3,datetime.date(2023, 9, 20), datetime.date(2024, 1, 10), 'Tran Thanh Tung', '1-2324'),
+        (6,'IT147IU','Mobile Cloud Computing', 'MON', 'A2.507', 90, 1,3,datetime.date(2023, 9, 20), datetime.date(2024, 1, 10), 'Nguyen Trung Ky', '1-2324'),
+        (7,'IT161IU','Big Data Technology', 'THU', 'A2.507', 90, 4,6,datetime.date(2023, 9, 20), datetime.date(2024, 1, 10), 'Nguyen Thi Thuy Loan', '1-2324'),
+        (8,'IT138IU','Data Science and Data Visualization', 'TUE', 'A2.307', 90, 4,6,datetime.date(2023, 9, 20), datetime.date(2024, 1, 10), 'Nguyen Thi Thuy Loan', '1-2324')
+    ]   
+    cursor.executemany("""
+        INSERT INTO class (class_id, cid, cname, day, room, slot, start_period, end_period, start_date, end_date, professor_name, semester)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?,?, ?, ?, ?);
+    """, class_data)
 
-# def insert_class_data():
-#     connection = create_connection()
-#     cursor = connection.cursor()
-#     class_data = [
-#         (1, 'IT069IU', 'Object-Oriented Programming' , 'WED', 'A2.407', 90, 4,6,datetime.date(2023, 9, 20), datetime.date(2024, 1, 10), 'T.T.Tung', '1-2324'),
-#         (2, 'IT079IU', 'Principles of Database Management' , 'SAT', 'A1.109', 90, 7,9,datetime.date(2023, 9, 20), datetime.date(2024, 1, 10), 'N.T.T.Loan', '1-2324'),
-#         (3, 'IT137IU', 'Data Analysis' , 'FRI', 'A2.205', 90, 4,6, datetime.date(2023, 9, 20), datetime.date(2024, 1, 10), 'N.T.Ky', '1-2324')
-#     ]
-#     cursor.executemany("""
-#         INSERT INTO class (class_id, cid, cname, day, room, slot, start_period, end_period, start_date, end_date, professor_name, semester)
-#         VALUES (?, ?, ?, ?, ?, ?, ?, ?,?, ?, ?, ?);
-#     """, class_data)
-
-#     connection.commit()
-#     connection.close()
-
+    connection.commit()
+    connection.close()
+    
 # insert_class_data()
-# def insert_enrollment_data():
-#     connection = create_connection()
-#     cursor = connection.cursor()
-#     enrollment_data = [
+def insert_enrollment_data():
+    connection = create_connection()
+    cursor = connection.cursor()
+    enrollment_data = [
 #         ('ITDSIU22151',1, 90, 100, 90, 93),
 #         ('ITDSIU22158',2,95, 100, 95, 96),
-#         ('BABAIU20169',3,100,100,100,100 )
-#     ]
-#     cursor.executemany("""
-#         INSERT INTO enrollment (sid, class_id, inclass, midterm,final, gpa)
-#         VALUES (?, ?, ?, ?,?,?);
-#     """, enrollment_data)
+#         ('BABAIU20169',3,100,100,100,100 ),
+        ('ITDSIU22151',2, 85, 90, 90, 93),
+        ('ITDSIU22151',6, 95, 90, 90, 95),
+        ('ITDSIU22151',7, 80, 100, 90, 92),
+        ('ITDSIU22151',4, 100, 99, 100, 99)
+    ]
+    cursor.executemany("""
+        INSERT INTO enrollment (sid, class_id, inclass, midterm,final, gpa)
+        VALUES (?, ?, ?, ?,?,?);
+    """, enrollment_data)
 
-#     connection.commit()
-#     connection.close()
-
+    connection.commit()
+    connection.close()
+insert_enrollment_data()
 def insert_major_data():
     connection = create_connection()
     cursor = connection.cursor()
@@ -108,7 +128,7 @@ def insert_major_data():
     connection.commit()
     connection.close()
 
-insert_major_data()
+#insert_major_data()
 # def insert_professor_data():
 #     connection = create_connection()
 #     cursor = connection.cursor()
