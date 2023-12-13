@@ -9,7 +9,7 @@ class Student(Base):
 
     sid = Column(VARCHAR, primary_key=True, index=True)
     sname = Column(String, nullable=False)
-    scholarship_id = Column(Integer, ForeignKey('scholarship.id'))
+    scholarship_id = Column(Integer, ForeignKey('scholarship.scholarship_id'))
     major_id = Column(String, ForeignKey('major.major_id'))
     major = relationship("Major", back_populates="students")
     scholarship = relationship("Scholarship", back_populates="students")
