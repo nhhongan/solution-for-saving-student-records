@@ -28,31 +28,35 @@ class MajorProgram(BaseModel):
 
 @router.get('/{sid}', response_model=List[MajorProgram])
 async def get_course_of_major(sid: str, db: Session = Depends(get_db)):
-    query_result = (
-        db.query(Course, Class, Enrollment, Student)
-        .join(Class, Class.cid == Course.cid)
-        .outerjoin(Enrollment, and_(Enrollment.sid == sid, Enrollment.class_id == Class.class_id))
-        .join(Student, Student.major_id == Course.major_id)
-        .filter(
-            Student.sid == sid
+    print("SID:", sid)
+    try:
+        query_result = (
+            db.query(Course, Class, Enrollment, Student)
+            .join(Class, Class.cid == Course.cid)
+            .outerjoin(Enrollment, and_(Enrollment.sid == sid, Enrollment.class_id == Class.class_id))
+            .join(Student, Student.major_id == Course.major_id)
+            .filter(
+                Student.sid == sid
+            )
+            .all()
         )
-        .all()
-    )
+        print("Result", query_result)
+        if not query_result:
+            raise HTTPException(status_code=404, detail=f"No classes found for student {sid}")
 
-    if not query_result:
-        raise HTTPException(status_code=404, detail=f"No classes found for student {sid}")
+        response_classes = []
+        for course, class_, enrollment, student in query_result:
+            major_program_entry = MajorProgram(
+                cid=course.cid,
+                cname=course.cname,
+                credit=course.credit,
+                semester=class_.semester,
+                learnt=enrollment is not None
+            )
+            response_classes.append(major_program_entry)
 
-    response_classes = []
-    for course, class_, enrollment, student in query_result:
-        major_program_entry = MajorProgram(
-            cid=course.cid,
-            cname=course.cname,
-            credit=course.credit,
-            semester=class_.semester,
-            learnt=enrollment is not None
-        )
-        response_classes.append(major_program_entry)
-
-    return response_classes
+        return response_classes
+    except:
+        raise HTTPException(status_code=505, detail="Internal Server Error")
 
 

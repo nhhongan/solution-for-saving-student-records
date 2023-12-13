@@ -32,13 +32,20 @@ def student_to_dict(student: Student) -> dict:
 @router.get("/", response_model=List[StudentModel])
 async def get_student(db: Session = Depends(get_db), skip: int = 0, limit: int = 100):
     students = db.query(Student).offset(skip).limit(limit).all()
+    if not students:
+        raise HTTPException(status_code=404, detail="Student not found")
     return students
 
 
 @router.get("/{sid}", response_model=StudentModel)
 async def get_student_by_id(sid: str, db: Session = Depends(get_db)):
     student = db.query(Student).filter(Student.sid == sid).first()
-    return student_to_dict(student)
+    try:
+        if not student:
+            raise HTTPException(status_code=404, detail="Student not found")
+        return student_to_dict(student)
+    except:
+        raise HTTPException(status_code=505, detail="Internal Server Error")
 
 
 # @router.post('/', response_model=Product, response_description="Update a Product")

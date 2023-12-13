@@ -1,4 +1,5 @@
-import axios from "axios";
+import axios, { AxiosResponse } from "axios";
+import CourseProgram from "models/CourseProgram";
 
 // Post with form data as body
 
@@ -15,5 +16,10 @@ export const logIn = async (url: string, username: string, password: string) => 
   const response = await axios.postForm(
     process.env.REACT_APP_API_ENDPOINT + url, 
     formData);
+  return response;
+}
+
+export const getMajorProgram = async (sid: string): Promise<AxiosResponse<CourseProgram[]>> => {
+  const response = await axios.get(process.env.REACT_APP_API_ENDPOINT + `/major-program/${sid}`);
   return response;
 }

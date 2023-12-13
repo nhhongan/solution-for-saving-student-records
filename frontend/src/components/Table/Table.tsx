@@ -14,7 +14,7 @@ export enum RowType {
 }
 export type Col = {
   name: string;
-  rowSpan: number;
+  rowSpan?: number;
   colSpan?: number;
 };
 
