@@ -5,7 +5,6 @@ from sqlalchemy import and_
 from database.session import get_db
 from models.classes import Class
 from models.enrollment import Enrollment
-from models.course import Course
 from pydantic import BaseModel
 
 

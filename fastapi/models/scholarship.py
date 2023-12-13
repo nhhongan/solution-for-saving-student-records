@@ -5,7 +5,7 @@ from sqlalchemy.orm import relationship
 class Scholarship(Base):
     __tablename__ = 'scholarship'
 
-    id = Column(Integer, primary_key=True)
+    scholarship_id = Column(Integer, primary_key=True)
     percentage_discount = Column(Float, nullable=False)
     description = Column(String)
     students = relationship("Student", back_populates="scholarship")
