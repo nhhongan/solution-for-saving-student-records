@@ -1,8 +1,6 @@
+import Class from "./Class"
+
 export default interface Fee {
-    cid: string;
-    class_id: number;
-    cname: string;
-    credits: number
-    semester: string
-    fee: number
+    tuition_fees: Class[],
+    total_fee: number
 }

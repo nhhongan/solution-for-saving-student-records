@@ -37,8 +37,8 @@ export const getClass = async(cid: string): Promise<AxiosResponse<Class[]>> => {
   return response;
 }
 
-export const getFee = async(sid: string): Promise<AxiosResponse<Fee[]>> => {
-  const response = await axios.get(process.env.REACT_APP_API_ENDPOINT + `/tuition-fee/${sid}`);
+export const getFee = async(sid: string, semester: string): Promise<AxiosResponse<Fee>> => {
+  const response = await axios.get(process.env.REACT_APP_API_ENDPOINT + `/tuition-fee/${sid}?semester=${semester}`);
   return response;
 }
 

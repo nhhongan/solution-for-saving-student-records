@@ -10,4 +10,5 @@ export default interface Class {
     pname: string;
     semester: string;
     slot?: number;
+    fee?: number;
 }
