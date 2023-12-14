@@ -148,10 +148,10 @@ def create_enrollment_table():
         CREATE TABLE IF NOT EXISTS enrollment (
         sid VARCHAR,
         class_id INTEGER,
-        inclass INTEGER NOT NULL,
-        midterm INTEGER NOT NULL,
-        final INTEGER NOT NULL,
-        gpa INTEGER NOT NULL,
+        inclass INTEGER NOT NULL DEFAULT 0,
+        midterm INTEGER NOT NULL DEFAULT 0,
+        final INTEGER NOT NULL DEFAULT 0,
+        gpa INTEGER NOT NULL DEFAULT 0,
         PRIMARY KEY(sid, class_id),
         FOREIGN KEY(sid) REFERENCES student(sid),
         FOREIGN KEY(class_id) REFERENCES class(class_id)

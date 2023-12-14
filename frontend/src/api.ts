@@ -1,4 +1,5 @@
 import axios, { AxiosResponse } from "axios";
+import Course from "models/Course";
 import CourseProgram from "models/CourseProgram";
 
 // Post with form data as body
@@ -21,5 +22,10 @@ export const logIn = async (url: string, username: string, password: string) => 
 
 export const getMajorProgram = async (sid: string): Promise<AxiosResponse<CourseProgram[]>> => {
   const response = await axios.get(process.env.REACT_APP_API_ENDPOINT + `/major-program/${sid}`);
+  return response;
+}
+
+export const filterCourse = async (sid: string, semester: string, week: number): Promise<AxiosResponse<Course[]>> => {
+  const response = await axios.get(process.env.REACT_APP_API_ENDPOINT + `/timetable/${sid}/${semester}/${week}`);
   return response;
 }

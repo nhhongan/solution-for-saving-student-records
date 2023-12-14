@@ -23,14 +23,15 @@ class TuitionFee(BaseModel):
     credits: int
     semester: str
     fee: int
-    total_fee: int
 
     class Config:
         orm_mode = True
 
+class TuitionFeeResponse(BaseModel):
+    tuition_fees: List[TuitionFee]
+    total_fee: int
 
-
-@router.get('/{sid}', response_model=List[TuitionFee])
+@router.get('/{sid}', response_model=TuitionFeeResponse)
 async def get_classes_of_student(sid: str, semester: str, db: Session = Depends(get_db)):
     query_result = (
         db.query(Class, Enrollment, Student, Scholarship)
@@ -55,7 +56,6 @@ async def get_classes_of_student(sid: str, semester: str, db: Session = Depends(
         course_fee_after_discount = course_fee * (1 - discount_percentage / 100)
         total_fee += course_fee_after_discount
 
-
         tuition_fee_entry = TuitionFee(
             cid=class_.course.cid,
             class_id=enrollment.class_id,
@@ -63,9 +63,7 @@ async def get_classes_of_student(sid: str, semester: str, db: Session = Depends(
             credits=credits,
             semester=class_.semester,
             fee=course_fee,
-            total_fee=total_fee,
         )
-
         response_classes.append(tuition_fee_entry)
-
-    return response_classes
+    
+    return TuitionFeeResponse(tuition_fees=response_classes, total_fee=total_fee)

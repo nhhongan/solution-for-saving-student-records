@@ -32,32 +32,36 @@ class Timetable(BaseModel):
 
 @router.get('/{sid}', response_model=List[Timetable])
 async def get_classes_of_student(sid: str, semester: str,db: Session = Depends(get_db)):
-    query_result = (
-        db.query(Class, Enrollment)
-        .join(Enrollment, and_(Class.class_id == Enrollment.class_id, Enrollment.sid == sid))
-        .filter(Class.semester == semester)
-        .all()
-    )
+    try:
 
-    if not query_result:
-        raise HTTPException(status_code=404, detail=f"No classes found for semester {semester} for student {sid}")
-
-    response_classes = []
-    for class_, enrollment in query_result:
-        credits = class_.course.credit if class_.course else "N/A"
-        timetable_entry = Timetable(
-            class_id=enrollment.class_id,
-            cname=class_.cname,
-            credits=credits,
-            day=class_.day,
-            room=class_.room,
-            start_period=class_.start_period,
-            end_period=class_.end_period,
-            start_date=class_.start_date,
-            end_date=class_.end_date,
-            pname=class_.professor_name,
-            semester=class_.semester,
+        query_result = (
+            db.query(Class, Enrollment)
+            .join(Enrollment, and_(Class.class_id == str(Enrollment.class_id), Enrollment.sid == sid))
+            # .filter(Class.semester == semester)
+            .all()
         )
-        response_classes.append(timetable_entry)
 
-    return response_classes
+        if not query_result:
+            raise HTTPException(status_code=404, detail=f"No classes found for semester {semester} for student {sid}")
+
+        response_classes = []
+        for class_, enrollment in query_result:
+            credits = class_.course.credit if class_.course else "N/A"
+            timetable_entry = Timetable(
+                class_id=enrollment.class_id,
+                cname=class_.cname,
+                credits=credits,
+                day=class_.day,
+                room=class_.room,
+                start_period=class_.start_period,
+                end_period=class_.end_period,
+                start_date=class_.start_date,
+                end_date=class_.end_date,
+                pname=class_.professor_name,
+                semester=class_.semester,
+            )
+            response_classes.append(timetable_entry)
+
+        return response_classes
+    except Exception as e:
+        raise HTTPException(status_code=505, detail="Internal Server Error\n"+str(e))

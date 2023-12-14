@@ -1,20 +1,9 @@
 import './TimeTablePage.scss'
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import filter_icon from 'assets/images/filter-icon.svg';
 import caret_down from 'assets/images/caret-down-solid.svg';
 import Table, { Row, TableType } from 'components/Table/Table';
-
-type Course = {
-    id: string;
-    name: string;
-    credits: number;
-    slots: number;
-    description: string;
-    lecturer: string;
-    day: string;
-    start: number;
-    duration: number;
-  }
+import Course from 'models/Course';
 
 const days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
 
@@ -40,44 +29,32 @@ const rowGenerator = (courses: Course[]) => {
       rows.push(row);
     }
     return rows
-  }
-
-const courses: Course[] = [
-{
-    id: '1',
-    name: 'Probability',
-    credits: 3,
-    slots: 2,
-    description: 'Probability and Mathematical Statistics',
-    lecturer: 'Nguyen Van B',
-    day: 'Tue',
-    start: 1,
-    duration: 3,
-},
-{
-    id: '2',
-    name: 'Probability',
-    credits: 3,
-    slots: 2,
-    description: 'Probability and Mathematical Statistics',
-    lecturer: 'Nguyen Van B',
-    day: 'Tue',
-    start: 5,
-    duration: 3,
-},
-]
+}
 
 function TimeTablePage() {
     // create an array of days in a week with abbreviation
     const [semester, setSemester] = useState('');
+    const [contents, setContents] = useState<Row[]>([]);
+    const user = localStorage.getItem('user');
 
     const handleSemesterChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setSemester(event.target.value);
     };
 
     const handleFilter = (event: React.FormEvent<HTMLFormElement>) => {
-        event.preventDefault();
-        // TODO: Fetch courses based on filters
+      if (user) {
+        const userObj = JSON.parse(user);
+        const sid = userObj.sid;
+        getMajorProgram(sid as string)
+        .then((res) => {
+          const coursePrograms: CourseProgram[] = res.data;
+          const rows: Row[] = [];
+          coursePrograms.forEach((courseProgram) => {
+            rows.push(cvtCourseProgram2Row(courseProgram));
+          });
+          setContents(rows);
+        });
+      }
     };
 
     return (
@@ -100,7 +77,7 @@ function TimeTablePage() {
             <Table 
                 headers={days} 
                 type={TableType.TimeTable} 
-                contents={rowGenerator(courses)}/>
+                contents={contents}/>
         </div>
     );
 }
