@@ -1,12 +1,12 @@
-from sqlalchemy import Column, Integer, String
+from sqlalchemy import Column, Integer, String, ForeignKey, PrimaryKeyConstraint
 from database.__init__ import Base
 from sqlalchemy.orm import relationship
 
-class ExamSchedule(Base):
+class ExamScheduleModel(Base):
     __tablename__ = 'exam_schedule'
 
-    class_id = Column(Integer, primary_key=True, index=True)
+    class_id = Column(Integer, ForeignKey("class.class_id"))
     day = Column(String)
     time = Column(String)
     room = Column(String)
-    class_ = relationship("Class", back_populates="exam_schedule")
+    PrimaryKeyConstraint(day, time, room) 
