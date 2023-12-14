@@ -1,7 +1,7 @@
 import sqlite3
 
 def create_connection():
-    connection = sqlite3.connect("C:/Users/QUAN/Desktop/solution-for-saving-student-records/backend/students.db")
+    connection = sqlite3.connect("backend/students.db")
     return connection
 
 def create_student_table():
@@ -161,7 +161,7 @@ def create_enrollment_table():
     connection.commit()
     connection.close()
 
-# create_enrollment_table()
+create_enrollment_table()
 
 def create_scholarship_table():
     connection = create_connection()

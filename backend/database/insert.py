@@ -2,7 +2,7 @@ import sqlite3
 import datetime
 
 def create_connection():
-    connection = sqlite3.connect("C:/Users/QUAN/Desktop/solution-for-saving-student-records/backend/students.db")
+    connection = sqlite3.connect("backend/students.db")
     return connection
 
 
@@ -106,7 +106,7 @@ def insert_enrollment_data():
 
     connection.commit()
     connection.close()
-# insert_enrollment_data()
+insert_enrollment_data()
 
 # def insert_major_data():
 #     connection = create_connection()
@@ -207,4 +207,4 @@ def insert_teach_data():
     connection.commit()
     connection.close()
 
-insert_teach_data() 
+# insert_teach_data() 
