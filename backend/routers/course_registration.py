@@ -31,7 +31,6 @@ class CourseRegistration(BaseModel):
     class Config:
         orm_mode = True
 
-
 @router.get('/{cid}', response_model=List[CourseRegistration])
 async def get_course(cid: str, db: Session = Depends(get_db)):
     course = db.query(Course).filter(Course.cid == cid).first()
@@ -59,9 +58,6 @@ async def get_course(cid: str, db: Session = Depends(get_db)):
 
     raise HTTPException(status_code=404, detail=f"Classes with cid {cid} not found")
 
-
-
-
 @router.patch('/{sid}/enroll_course_{course_id}')
 async def insert_class(sid: str, course_id: str, db: Session = Depends(get_db)):
     student = db.query(Student).filter(Student.sid == sid).first()
@@ -86,7 +82,6 @@ async def insert_class(sid: str, course_id: str, db: Session = Depends(get_db)):
 
     db.commit()
     return {"status": "Enrollment successful", "enrolled_course": course_id}
-
 
 @router.delete('/{sid}/unenroll_course_{course_id}')
 async def delete_class(sid: str, course_id: str, db: Session = Depends(get_db)):

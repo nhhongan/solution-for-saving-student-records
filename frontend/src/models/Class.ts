@@ -1,11 +1,13 @@
 export default interface Class {
     class_id: string;
+    cid?: string;
     cname: string;
-    credits: number;
+    credit: number;
     day: string;
     room: string;
     start_period: number;
     end_period: number;
-    pnam: string;
+    pname: string;
     semester: string;
+    slot?: number;
 }

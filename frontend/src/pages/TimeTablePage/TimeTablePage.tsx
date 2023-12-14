@@ -4,7 +4,7 @@ import filter_icon from 'assets/images/filter-icon.svg';
 import caret_down from 'assets/images/caret-down-solid.svg';
 import Table, { Row, TableType } from 'components/Table/Table';
 import Class from 'models/Class';
-import { filterCourse } from 'api';
+import { getTimeTable } from 'api';
 
 const days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
 
@@ -48,7 +48,7 @@ function TimeTablePage() {
       if (user) {
         const userObj = JSON.parse(user);
         const sid = userObj.sid;
-        filterCourse(sid as string, semester)
+        getTimeTable(sid as string, semester)
         .then((res) => {
           const courses: Class[] = res.data;
 

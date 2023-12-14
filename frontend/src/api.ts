@@ -25,7 +25,12 @@ export const getMajorProgram = async (sid: string): Promise<AxiosResponse<Course
   return response;
 }
 
-export const filterCourse = async (sid: string, semester: string, week?: number): Promise<AxiosResponse<Class[]>> => {
+export const getTimeTable = async (sid: string, semester: string, week?: number): Promise<AxiosResponse<Class[]>> => {
   const response = await axios.get(process.env.REACT_APP_API_ENDPOINT + `/timetable/${sid}?semester=${semester}`);
+  return response;
+}
+
+export const getClass = async(cid: string): Promise<AxiosResponse<Class[]>> => {
+  const response = await axios.get(process.env.REACT_APP_API_ENDPOINT + `/course-registration/${cid}`);
   return response;
 }

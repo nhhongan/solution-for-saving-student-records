@@ -16,7 +16,7 @@ router = APIRouter(
 class Timetable(BaseModel):
     class_id: int
     cname: str
-    credits: int
+    credit: int
     day: str
     room: str
     start_period: int
@@ -46,11 +46,11 @@ async def get_classes_of_student(sid: str, semester: str,db: Session = Depends(g
 
         response_classes = []
         for class_, enrollment in query_result:
-            credits = class_.course.credit if class_.course else "N/A"
+            credit = class_.course.credit if class_.course else "N/A"
             timetable_entry = Timetable(
                 class_id=enrollment.class_id,
                 cname=class_.cname,
-                credits=credits,
+                credit=credit,
                 day=class_.day,
                 room=class_.room,
                 start_period=class_.start_period,
