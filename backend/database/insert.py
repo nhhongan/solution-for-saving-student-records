@@ -2,7 +2,7 @@ import sqlite3
 import datetime
 
 def create_connection():
-    connection = sqlite3.connect("students.db")
+    connection = sqlite3.connect("C:/Users/QUAN/Desktop/solution-for-saving-student-records/backend/students.db")
     return connection
 
 
@@ -106,7 +106,7 @@ def insert_enrollment_data():
 
     connection.commit()
     connection.close()
-insert_enrollment_data()
+# insert_enrollment_data()
 
 # def insert_major_data():
 #     connection = create_connection()
@@ -190,21 +190,21 @@ insert_enrollment_data()
 
 #     connection.commit()
 #     connection.close()
-# def insert_teach_data():
-#     connection = create_connection()
-#     cursor = connection.cursor()
-#     teach_data = [
-#         (1, 'IT069IU', 'Object-Oriented Programming' , 'WED', 'A2.407','IT2','T.T.Tung'),
-#         (2, 'IT079IU', 'Principles of Database Management' , 'SAT', 'A1.109','IT3', 'N.T.T.Loan'),
-#         (3, 'IT137IU', 'Data Analysis' , 'FRI', 'A2.205','IT4' , 'N.T.Ky')
+def insert_teach_data():
+    connection = create_connection()
+    cursor = connection.cursor()
+    teach_data = [
+        (1, 'IT069IU', 'Object-Oriented Programming' , 'WED', 'A2.407','IT2','Tran Thanh Tung'),
+        (2, 'IT079IU', 'Principles of Database Management' , 'SAT', 'A1.109','IT3', 'Nguyen Thi Thuy Loan'),
+        (3, 'IT137IU', 'Data Analysis' , 'FRI', 'A2.205','IT4' , 'Nguyen Trung Ky')
         
-#     ]
-#     cursor.executemany("""
-#         INSERT INTO teach (class_id, cid,cname,day,room,pid,professor_name ) 
-#         VALUES (?, ?,?,?,?,?,?);
-#     """, teach_data)
+    ]
+    cursor.executemany("""
+        INSERT INTO teach (class_id, cid,cname,day,room,pid,professor_name ) 
+        VALUES (?, ?,?,?,?,?,?);
+    """, teach_data)
 
-#     connection.commit()
-#     connection.close()
+    connection.commit()
+    connection.close()
 
-# insert_teach_data()
+insert_teach_data() 

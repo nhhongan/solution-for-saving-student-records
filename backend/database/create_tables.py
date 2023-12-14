@@ -1,7 +1,7 @@
 import sqlite3
 
 def create_connection():
-    connection = sqlite3.connect("students.db")
+    connection = sqlite3.connect("C:/Users/QUAN/Desktop/solution-for-saving-student-records/backend/students.db")
     return connection
 
 def create_student_table():
@@ -20,7 +20,7 @@ def create_student_table():
     connection.commit()
     connection.close()
 
-create_student_table()
+# create_student_table()
 
 def create_user_table():
     connection = create_connection()
@@ -37,7 +37,7 @@ def create_user_table():
     connection.commit()
     connection.close()
 
-create_user_table()
+# create_user_table()
 
 def create_major_table():
     connection = create_connection()
@@ -51,7 +51,7 @@ def create_major_table():
     connection.commit()
     connection.close()
 
-create_major_table()
+# create_major_table()
 
 def create_course_table():
     connection = create_connection()
@@ -69,7 +69,7 @@ def create_course_table():
     connection.commit()
     connection.close()
 
-create_course_table()
+# create_course_table()
 
 def create_professor_table():
     connection = create_connection()
@@ -84,7 +84,7 @@ def create_professor_table():
     connection.commit()
     connection.close()
 
-create_professor_table()
+# create_professor_table()
 
 def create_class_table():
     connection = create_connection()
@@ -112,7 +112,7 @@ def create_class_table():
     connection.commit()
     connection.close()
 
-create_class_table()
+# create_class_table()
 
 
 def create_teach_table():
@@ -133,6 +133,7 @@ def create_teach_table():
         FOREIGN KEY(day) REFERENCES class(day),
         FOREIGN KEY(room) REFERENCES class(room),
         FOREIGN KEY(class_id) REFERENCES class(class_id),
+        FOREIGN KEY(pid) REFERENCES professor(pid),
         PRIMARY KEY(pid, class_id)
     )
     """)
@@ -160,7 +161,7 @@ def create_enrollment_table():
     connection.commit()
     connection.close()
 
-create_enrollment_table()
+# create_enrollment_table()
 
 def create_scholarship_table():
     connection = create_connection()
@@ -175,7 +176,7 @@ def create_scholarship_table():
     connection.commit()
     connection.close()
 
-create_scholarship_table()
+# create_scholarship_table()
 
 
 
