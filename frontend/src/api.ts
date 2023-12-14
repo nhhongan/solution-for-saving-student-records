@@ -1,6 +1,8 @@
 import axios, { AxiosResponse } from "axios";
 import Class from "models/Class";
 import CourseProgram from "models/CourseProgram";
+import Fee from "models/Fee";
+import Student from "models/Student";
 
 // Post with form data as body
 
@@ -32,5 +34,15 @@ export const getTimeTable = async (sid: string, semester: string, week?: number)
 
 export const getClass = async(cid: string): Promise<AxiosResponse<Class[]>> => {
   const response = await axios.get(process.env.REACT_APP_API_ENDPOINT + `/course-registration/${cid}`);
+  return response;
+}
+
+export const getFee = async(sid: string): Promise<AxiosResponse<Fee[]>> => {
+  const response = await axios.get(process.env.REACT_APP_API_ENDPOINT + `/tuition-fee/${sid}`);
+  return response;
+}
+
+export const getStudentInfo = async(sid: string): Promise<AxiosResponse<Student>> => {
+  const response = await axios.get(process.env.REACT_APP_API_ENDPOINT + `/student/${sid}`);
   return response;
 }

@@ -14,7 +14,7 @@ router = APIRouter(
 
 class StudentModel(BaseModel):
     sname: str
-    scholarship_id: int
+    scholarship_discount: int
     major_name: str
     sid: str
 
@@ -22,11 +22,16 @@ class StudentModel(BaseModel):
         orm_mode = True
 
 def student_to_dict(student: Student) -> dict:
+    if student.scholarship:
+        discount = int(student.scholarship.percentage_discount)
+    else:
+        discount = 0
+
     return {
         "sname": student.sname,
         "sid": student.sid,
-        "major_name": student.major_name,
-        "scholarship_id": student.scholarship_id,
+        "major_name": student.major.major_name,
+        "scholarship_discount": discount,
     }
 
 @router.get("/", response_model=List[StudentModel])
@@ -39,13 +44,13 @@ async def get_student(db: Session = Depends(get_db), skip: int = 0, limit: int =
 
 @router.get("/{sid}", response_model=StudentModel)
 async def get_student_by_id(sid: str, db: Session = Depends(get_db)):
-    student = db.query(Student).filter(Student.sid == sid).first()
     try:
+        student = db.query(Student).filter(Student.sid == sid).first()
         if not student:
             raise HTTPException(status_code=404, detail="Student not found")
         return student_to_dict(student)
-    except:
-        raise HTTPException(status_code=505, detail="Internal Server Error")
+    except Exception as e:
+        raise HTTPException(status_code=505, detail="Internal Server Error " + str(e))
 
 
 # @router.post('/', response_model=Product, response_description="Update a Product")
