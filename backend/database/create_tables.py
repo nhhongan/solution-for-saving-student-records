@@ -178,8 +178,20 @@ def create_scholarship_table():
 
 # create_scholarship_table()
 
+def create_exam_schedule_table():
+    connection = create_connection()
+    cursor = connection.cursor()
+    cursor.execute("""
+        CREATE TABLE IF NOT EXISTS exam_schedule (
+        class_id INTEGER,
+        day TEXT NOT NULL,
+        time TEXT NOT NULL, 
+        room TEXT NOT NULL,
+        PRIMARY KEY(day, time, room),
+        FOREIGN KEY(class_id) REFERENCES class(class_id)
+    )
+    """)
+    connection.commit()
+    connection.close()
 
-
-
-
-
+create_exam_schedule_table()
