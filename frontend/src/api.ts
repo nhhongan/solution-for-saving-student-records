@@ -1,5 +1,5 @@
 import axios, { AxiosResponse } from "axios";
-import Course from "models/Course";
+import Class from "models/Class";
 import CourseProgram from "models/CourseProgram";
 
 // Post with form data as body
@@ -25,7 +25,7 @@ export const getMajorProgram = async (sid: string): Promise<AxiosResponse<Course
   return response;
 }
 
-export const filterCourse = async (sid: string, semester: string, week: number): Promise<AxiosResponse<Course[]>> => {
-  const response = await axios.get(process.env.REACT_APP_API_ENDPOINT + `/timetable/${sid}/${semester}/${week}`);
+export const filterCourse = async (sid: string, semester: string, week?: number): Promise<AxiosResponse<Class[]>> => {
+  const response = await axios.get(process.env.REACT_APP_API_ENDPOINT + `/timetable/${sid}?semester=${semester}`);
   return response;
 }

@@ -14,7 +14,7 @@ router = APIRouter(
 )
 
 class Timetable(BaseModel):
-    class_id: str
+    class_id: int
     cname: str
     credits: int
     day: str
@@ -36,8 +36,8 @@ async def get_classes_of_student(sid: str, semester: str,db: Session = Depends(g
 
         query_result = (
             db.query(Class, Enrollment)
-            .join(Enrollment, and_(Class.class_id == str(Enrollment.class_id), Enrollment.sid == sid))
-            # .filter(Class.semester == semester)
+            .join(Enrollment, and_(Class.class_id == Enrollment.class_id, Enrollment.sid == sid))
+            .filter(Class.semester == semester)
             .all()
         )
 

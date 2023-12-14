@@ -3,11 +3,12 @@ import React, { useEffect, useState } from 'react';
 import filter_icon from 'assets/images/filter-icon.svg';
 import caret_down from 'assets/images/caret-down-solid.svg';
 import Table, { Row, TableType } from 'components/Table/Table';
-import Course from 'models/Course';
+import Class from 'models/Class';
+import { filterCourse } from 'api';
 
 const days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
 
-const rowGenerator = (courses: Course[]) => {
+const rowGenerator = (courses: Class[]): Row[] => {
     // Create emtpy rows which has 8 columns, the first one is the order of the row
     // There are 10 rows in total
     let rows: Row[]= [];
@@ -18,9 +19,9 @@ const rowGenerator = (courses: Course[]) => {
       // Iterate through each day (col)
       // If there is a course that matches the day and start time, add it to the row
       days.forEach(day => {
-        const found = courses.find(course => course.day === day && course.start === i)
+        const found = courses.find(course => course.day.toLowerCase() === day.toLowerCase() && course.start_period === i)
         if (found) {
-          row.cols.push({ name: found.name, rowSpan: found.duration })
+          row.cols.push({ name: found.cname, rowSpan: found.end_period - found.start_period + 1 })
         } else {
           row.cols.push({ name: '', rowSpan: 1 })
         }
@@ -41,18 +42,17 @@ function TimeTablePage() {
         setSemester(event.target.value);
     };
 
+    useEffect(() => {}, [semester, contents])
     const handleFilter = (event: React.FormEvent<HTMLFormElement>) => {
+      event.preventDefault();
       if (user) {
         const userObj = JSON.parse(user);
         const sid = userObj.sid;
-        getMajorProgram(sid as string)
+        filterCourse(sid as string, semester)
         .then((res) => {
-          const coursePrograms: CourseProgram[] = res.data;
-          const rows: Row[] = [];
-          coursePrograms.forEach((courseProgram) => {
-            rows.push(cvtCourseProgram2Row(courseProgram));
-          });
-          setContents(rows);
+          const courses: Class[] = res.data;
+
+          setContents(rowGenerator(courses));
         });
       }
     };
