@@ -29,7 +29,7 @@ class StudentMark(BaseModel):
         orm_mode = True
 
 @router.get('/{sid}', response_model=List[StudentMark])
-async def get_course_of_major(sid: str, db: Session = Depends(get_db)):
+async def get_mark(sid: str, db: Session = Depends(get_db)):
     try:
         student = db.query(Student).filter(Student.sid == sid).first()
 
