@@ -106,7 +106,7 @@ def insert_enrollment_data():
 
     connection.commit()
     connection.close()
-insert_enrollment_data()
+# insert_enrollment_data()
 
 # def insert_major_data():
 #     connection = create_connection()
@@ -208,3 +208,24 @@ def insert_teach_data():
     connection.close()
 
 # insert_teach_data() 
+def insert_exam_schedule_data():
+    connection = create_connection()
+    cursor = connection.cursor()
+    exam_schedule_data = [
+        (3,'2023-01-25','13:00', 'A2.105'),
+        (4,'2023-01-27','08:00', 'A2.405'),
+        (5,'2023-01-29','15:00', 'A1.305'),
+        (1,'2023-01-30','10:15', 'A2.105'),
+        (2,'2023-01-31','13:00', 'A1.505'),
+        (6,'2023-01-30','08:00', 'A2.105'),
+        (7,'2023-01-25','13:00', 'A1.307')
+        
+    ]
+    cursor.executemany("""
+        INSERT INTO exam_schedule (class_id, day, time, room) 
+        VALUES (?, ?,?,?);
+    """, exam_schedule_data)
+
+    connection.commit()
+    connection.close()
+insert_exam_schedule_data()
