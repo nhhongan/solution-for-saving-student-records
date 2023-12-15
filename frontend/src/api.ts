@@ -3,6 +3,7 @@ import Class from "models/Class";
 import CourseProgram from "models/CourseProgram";
 import { Exam } from "models/Exam";
 import Fee from "models/Fee";
+import Mark from "models/Mark";
 import Student from "models/Student";
 
 // Post with form data as body
@@ -50,5 +51,10 @@ export const getStudentInfo = async(sid: string): Promise<AxiosResponse<Student>
 
 export const getExamSchedule = async(sid: string): Promise<AxiosResponse<Exam[]>> => {
   const response = await axios.get(process.env.REACT_APP_API_ENDPOINT + `/exam-schedule/${sid}`);
+  return response;
+}
+
+export const getStudentMarks = async(sid: string): Promise<AxiosResponse<Mark[]>> => {
+  const response = await axios.get(process.env.REACT_APP_API_ENDPOINT + `/student-mark/${sid}`);
   return response;
 }

@@ -10,7 +10,6 @@ const ProfilePage: React.FC = () => {
       const userObj = JSON.parse(user);
       const sid = userObj.sid;
       getStudentInfo(sid as string).then((res) => {
-        console.log(res.data);
         if (res.status === 200) {
           const student = res.data;        
           setStudent(student);
@@ -25,19 +24,19 @@ const ProfilePage: React.FC = () => {
       <form className="input-form">
         <div className="form-group">
           <label htmlFor="username">Name:</label>
-          <input type="text" name="" id="user-name" readOnly={true} value={student?.sname}/>
+          <input type="text" name="" id="user-name" readOnly={true} defaultValue={student?.sname}/>
         </div>
         <div className="form-group">
           <label htmlFor="username">ID:</label>
-          <input type="text" name="" id="user-name" readOnly={true} value={student?.sid}/>
+          <input type="text" name="" id="user-name" readOnly={true} defaultValue={student?.sid}/>
         </div>
         <div className="form-group">
           <label htmlFor="username">Scholarship Discount %:</label>
-          <input type="text" name="" id="user-name" readOnly={true} value={student?.scholarship_discount}/>
+          <input type="text" name="" id="user-name" readOnly={true} defaultValue={student?.scholarship_discount}/>
         </div>
         <div className="form-group">
           <label htmlFor="username">Major:</label>
-          <input type="text" name="" id="user-name" readOnly={true} value={student?.major_name}/>
+          <input type="text" name="" id="user-name" readOnly={true} defaultValue={student?.major_name}/>
         </div>
       </form>
     </div>
