@@ -19,9 +19,9 @@ const CourseProgramPage: React.FC = () => {
   const program = 'Data Science';
   const school_year = '2022-2026';
   const [contents, setContents] = React.useState<Row[]>([]);
+  const user = localStorage.getItem('user');
 
   useEffect(() => {
-    const user = localStorage.getItem('user');
     if (user) {
       const userObj = JSON.parse(user);
       const sid = userObj.sid;

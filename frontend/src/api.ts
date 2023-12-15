@@ -1,6 +1,7 @@
 import axios, { AxiosResponse } from "axios";
 import Class from "models/Class";
 import CourseProgram from "models/CourseProgram";
+import { Exam } from "models/Exam";
 import Fee from "models/Fee";
 import Student from "models/Student";
 
@@ -44,5 +45,10 @@ export const getFee = async(sid: string, semester: string): Promise<AxiosRespons
 
 export const getStudentInfo = async(sid: string): Promise<AxiosResponse<Student>> => {
   const response = await axios.get(process.env.REACT_APP_API_ENDPOINT + `/student/${sid}`);
+  return response;
+}
+
+export const getExamSchedule = async(sid: string): Promise<AxiosResponse<Exam[]>> => {
+  const response = await axios.get(process.env.REACT_APP_API_ENDPOINT + `/exam-schedule/${sid}`);
   return response;
 }

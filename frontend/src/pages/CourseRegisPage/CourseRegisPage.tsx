@@ -26,7 +26,7 @@ function CourseRegisPage() {
     // Create a list of courses
     
     const [courseid, setCourseId] = useState('');
-    const [faculty, setFaculty] = useState('');
+    // const [faculty, setFaculty] = useState('');
     const [contents, setContents] = useState<Row[]>([]);
     const user = localStorage.getItem('user');
 
@@ -50,11 +50,11 @@ function CourseRegisPage() {
                     label="Course Id"
                     value={courseid} 
                     handleValueChange={(e)=>setCourseId(e.target.value)} />
-                <SelectInput 
+                {/* <SelectInput 
                     id={'faculty'} 
                     label="Faculty"
                     value={faculty} 
-                    handleValueChange={(e)=>setFaculty(e.target.value)} />
+                    handleValueChange={(e)=>setFaculty(e.target.value)} /> */}
             </FilterForm>
             <FilterForm type={FormType.SUBMIT}>
                 <Table headers={headers} type={TableType.EDITABLE} contents={contents}/>

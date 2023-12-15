@@ -1,28 +1,43 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Table, { Row, TableType } from "components/Table/Table";
 import FilterForm from "components/FilterForm/FilterForm";
 import SelectInput from "components/FilterForm/SelectInput";
 import CheckboxInput, { CheckboxInputGroup } from "components/FilterForm/CheckboxInput";
+import { getExamSchedule } from "api";
+import { Exam } from "models/Exam";
 
+const rowGenerator = (exam: Exam): Row => {
+  const row = new Row();
+  row.cols.push({ name: exam.cid });
+  row.cols.push({ name: exam.cname });
+  row.cols.push({ name: exam.day });
+  row.cols.push({ name: exam.time });
+  row.cols.push({ name: exam.room });
+  return row;
+}
 const ExamSchedulePage: React.FC = () => {
   const [semester, setSemester] = useState("");
   const [examination, setExamination] = useState<string>("midterm");
-
+  const [contents, setContents] = useState<Row[]>([]);
+  const user = localStorage.getItem('user');
   const handleFilter = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     // TODO: Fetch courses based on filters
   };
-
-  const contents: Row[] = []; 
-  for (let i = 0; i < 10; i++) {
-    const row = new Row();
-    row.cols.push({name: 'CSC130', rowSpan: 1});
-    row.cols.push({name: 'Introduction to Computer Science', rowSpan: 1});
-    row.cols.push({name: '2021-07-01', rowSpan: 1});
-    row.cols.push({name: '7:30', rowSpan: 1});
-    row.cols.push({name: 'A1', rowSpan: 1});
-    contents.push(row);
-  }
+  useEffect(() => {
+    if (user) {
+      const userObj = JSON.parse(user);
+      const sid = userObj.sid;
+      getExamSchedule(sid as string).then((res) => {
+        const examSchedule: Exam[] = res.data;
+        const rows: Row[] = [];
+        examSchedule.forEach((exam) => {
+          rows.push(rowGenerator(exam));
+        });
+        setContents(rows);
+      })
+    }
+  },[])
   return (
     <div className="examschedule-page page">
       <FilterForm>

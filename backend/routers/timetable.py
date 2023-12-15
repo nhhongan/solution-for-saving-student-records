@@ -64,4 +64,5 @@ async def get_classes_of_student(sid: str, semester: str,db: Session = Depends(g
 
         return response_classes
     except Exception as e:
-        raise HTTPException(status_code=505, detail="Internal Server Error\n"+str(e))
+        print(str(e))
+        raise HTTPException(status_code=505, detail="Internal Server Error")
