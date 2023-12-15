@@ -6,21 +6,21 @@ def create_connection():
     return connection
 
 
-# def insert_student_data():
-#     connection = create_connection()
-#     cursor = connection.cursor()
-#     student_data = [
-#         ('ITDSIU22151', 'Nguyen Hoang Hong An', 2, 'IT'),
-#         ('ITDSIU22158', 'Chau An Phu', '', 'IT'),
-#         ('BABAIU20169', 'Tran Bao Tuan', '','BA')
-#     ]
-#     cursor.executemany("""
-#         INSERT INTO student (sid, sname, scholarship_id, major_id)
-#         VALUES (?, ?, ?, ?);
-#     """, student_data)
+def insert_student_data():
+    connection = create_connection()
+    cursor = connection.cursor()
+    student_data = [
+        ('ITDSIU22151', 'Nguyen Hoang Hong An', 2, 'IT'),
+        ('ITDSIU22158', 'Chau An Phu', '', 'IT'),
+        ('BABAIU20169', 'Tran Bao Tuan', '','BA')
+    ]
+    cursor.executemany("""
+        INSERT INTO student (sid, sname, scholarship_id, major_id)
+        VALUES (?, ?, ?, ?);
+    """, student_data)
 
-#     connection.commit()
-#     connection.close()
+    connection.commit()
+    connection.close()
 
 # insert_student_data()
 
@@ -91,22 +91,22 @@ def insert_enrollment_data():
     connection = create_connection()
     cursor = connection.cursor()
     enrollment_data = [
-        ('ITDSIU22151',1, 90, 100, 90, 93),
-        ('ITDSIU22158',2,95, 100, 95, 96),
-        ('BABAIU20169',3,100,100,100,100 ),
-        ('ITDSIU22151',2, 85, 90, 90, 93),
-        ('ITDSIU22151',6, 95, 90, 90, 95),
-        ('ITDSIU22151',7, 80, 100, 90, 92),
-        ('ITDSIU22151',4, 100, 99, 100, 99)
+        ('ITDSIU22151',1, 90, 100, 90, 93, '2023-12-11'),
+        ('ITDSIU22158',2,95, 100, 95, 96, '2023-12-11'),
+        ('BABAIU20169',3,100,100,100,100, '2023-12-11'),
+        ('ITDSIU22151',2, 85, 90, 90, 93, '2023-12-11'),
+        ('ITDSIU22151',6, 95, 90, 90, 95, '2023-12-11'),
+        ('ITDSIU22151',7, 80, 100, 90, 92, '2023-12-11'),
+        ('ITDSIU22151',4, 100, 99, 100, 99, '2023-12-11')
     ]
     cursor.executemany("""
-        INSERT INTO enrollment (sid, class_id, inclass, midterm,final, gpa)
-        VALUES (?, ?, ?, ?,?,?);
+        INSERT INTO enrollment (sid, class_id, inclass, midterm,final, gpa, register_time)
+        VALUES (?, ?, ?, ?,?,?, ?);
     """, enrollment_data)
 
     connection.commit()
     connection.close()
-# insert_enrollment_data()
+insert_enrollment_data()
 
 # def insert_major_data():
 #     connection = create_connection()
@@ -228,4 +228,4 @@ def insert_exam_schedule_data():
 
     connection.commit()
     connection.close()
-insert_exam_schedule_data()
+# insert_exam_schedule_data()
