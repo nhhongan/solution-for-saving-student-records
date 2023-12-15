@@ -153,6 +153,7 @@ def create_enrollment_table():
         midterm INTEGER NOT NULL DEFAULT 0,
         final INTEGER NOT NULL DEFAULT 0,
         gpa INTEGER NOT NULL DEFAULT 0,
+        register_time TEXT NOT NULL,
         PRIMARY KEY(sid, class_id),
         FOREIGN KEY(sid) REFERENCES student(sid),
         FOREIGN KEY(class_id) REFERENCES class(class_id)
