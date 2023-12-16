@@ -21,10 +21,10 @@ const rowGenerator = (mark: Mark): Row => {
     return row;
 }
 const MarksPage: React.FC = () => {
-    const [semester, setSemester] = React.useState<string>('');
+    const [semester, setSemester] = React.useState<string>('1-2324');
     const [contents, setContents] = React.useState<Row[]>([]);
     const user = localStorage.getItem('user');
-    useEffect(() => {
+    const getContent = () => {
         if (user) {
             const userObj = JSON.parse(user);
             const sid = userObj.sid;
@@ -37,19 +37,14 @@ const MarksPage: React.FC = () => {
               setContents(rows);
             })
           }
+    }
+    
+    useEffect(() => {
+        getContent();
     }, [])
-    // const summary: Record<string, string> = {
-    //     "Điểm trung bình học kỳ hệ 10/100": "9.0",
-    //     "Điểm trung bình học kỳ hệ 4": "3.46",
-    //     "Điểm trung bình tích lũy:": "83.2",
-    //     "Điểm trung bình tích lũy hệ 4": "3.46",
-    //     "Số tín chỉ đạt": "24",
-    //     "Số tín chỉ tích lũy": "33",
-    //     "Phân loại điểm trung bình học kỳ": "Giỏi"
-    // }
     return (
         <div className="page" id="marks-page">
-            <FilterForm>
+            <FilterForm onSubmit={(e) => {e.preventDefault(); getContent()}}>
                 <SelectInput
                 id="semester"
                 label="Semester"

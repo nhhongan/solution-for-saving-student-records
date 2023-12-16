@@ -34,7 +34,7 @@ const rowGenerator = (courses: Class[]): Row[] => {
 
 function TimeTablePage() {
     // create an array of days in a week with abbreviation
-    const [semester, setSemester] = useState('');
+    const [semester, setSemester] = useState('1-2324');
     const [contents, setContents] = useState<Row[]>([]);
     const user = localStorage.getItem('user');
 
@@ -65,11 +65,11 @@ function TimeTablePage() {
                     <input type="text" id="semester" value={semester} onChange={handleSemesterChange} />
                     <img src={caret_down} alt="test" />
                 </div>
-                <div className='form-group' id='form-week'>
+                {/* <div className='form-group' id='form-week'>
                     <label htmlFor="week">Week</label>
                     <input type="text" id="week" value={semester} onChange={handleSemesterChange} />
                     <img src={caret_down} alt="test" />
-                </div>
+                </div> */}
                 <button id='submit' type="submit">
                     Filter<img src={filter_icon} alt="test" />
                 </button>

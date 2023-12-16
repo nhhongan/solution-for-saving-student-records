@@ -23,8 +23,6 @@ const ExamSchedulePage: React.FC = () => {
   const handleFilter = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     // TODO: Fetch courses based on filters
-  };
-  useEffect(() => {
     if (user) {
       const userObj = JSON.parse(user);
       const sid = userObj.sid;
@@ -37,10 +35,10 @@ const ExamSchedulePage: React.FC = () => {
         setContents(rows);
       })
     }
-  },[])
+  };
   return (
     <div className="examschedule-page page">
-      <FilterForm>
+      <FilterForm onSubmit={handleFilter}>
         <SelectInput
           id="semester"
           label="Semester"
