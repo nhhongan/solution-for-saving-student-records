@@ -37,7 +37,7 @@ def create_user_table():
     connection.commit()
     connection.close()
 
-# create_user_table()
+create_user_table()
 
 def create_major_table():
     connection = create_connection()

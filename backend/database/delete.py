@@ -47,3 +47,14 @@ def drop_enroll_table():
     connection.close()
 
 # drop_enroll_table()
+
+def drop_user_table():
+    connection = create_connection()
+    cursor = connection.cursor()
+    cursor.execute("""
+        DROP TABLE IF EXISTS user;
+    """)
+    connection.commit()
+    connection.close()
+
+drop_user_table()
