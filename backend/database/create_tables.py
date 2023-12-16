@@ -37,7 +37,7 @@ def create_user_table():
     connection.commit()
     connection.close()
 
-# create_user_table()
+create_user_table()
 
 def create_major_table():
     connection = create_connection()
@@ -127,8 +127,8 @@ def create_teach_table():
         room TEXT NOT NULL,
         pid VARCHAR NOT NULL,
         professor_name TEXT NOT NULL,
-        FOREIGN KEY(cid) REFERENCES course(cid),
-        FOREIGN KEY(cname) REFERENCES course(cname),
+        FOREIGN KEY(cid) REFERENCES class(cid),
+        FOREIGN KEY(cname) REFERENCES class(cname),
         FOREIGN KEY(professor_name) REFERENCES professor(pname),
         FOREIGN KEY(day) REFERENCES class(day),
         FOREIGN KEY(room) REFERENCES class(room),
@@ -153,6 +153,7 @@ def create_enrollment_table():
         midterm INTEGER NOT NULL DEFAULT 0,
         final INTEGER NOT NULL DEFAULT 0,
         gpa INTEGER NOT NULL DEFAULT 0,
+        register_time TEXT NOT NULL,
         PRIMARY KEY(sid, class_id),
         FOREIGN KEY(sid) REFERENCES student(sid),
         FOREIGN KEY(class_id) REFERENCES class(class_id)

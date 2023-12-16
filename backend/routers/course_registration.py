@@ -3,6 +3,7 @@ from fastapi import APIRouter, HTTPException, Depends
 from sqlalchemy.orm import Session
 from database.session import get_db
 from pydantic import BaseModel
+from datetime import datetime
 from models.classes import Class
 from models.course import Course
 from models.student import Student
@@ -58,7 +59,7 @@ async def get_course(cid: str, db: Session = Depends(get_db)):
 
     raise HTTPException(status_code=404, detail=f"Classes with cid {cid} not found")
 
-@router.patch('/{sid}/enroll_course_{course_id}')
+@router.patch('/{sid}/enroll_course_{cid}', response_model=CourseRegistration)
 async def insert_class(sid: str, course_id: str, db: Session = Depends(get_db)):
     student = db.query(Student).filter(Student.sid == sid).first()
     if not student:
@@ -75,30 +76,63 @@ async def insert_class(sid: str, course_id: str, db: Session = Depends(get_db)):
         raise HTTPException(
             status_code=400, detail="Student is already enrolled in this course"
         )
+    enrolled_class = course.classes[0] if course.classes else None
 
-    for course_class in course.classes:
-        new_enrollment = Enrollment(sid=sid, class_id=course_class.class_id, inclass=0, midterm=0, final=0, gpa=0)
+    if enrolled_class:
+        new_enrollment = Enrollment(
+            sid=sid,
+            class_id=enrolled_class.class_id,
+            inclass=0,
+            midterm=0,
+            final=0,
+            gpa=0,
+            register_time=datetime.now().strftime('%Y-%m-%d'),
+        )
         db.add(new_enrollment)
+        db.commit()
 
-    db.commit()
-    return {"status": "Enrollment successful", "enrolled_course": course_id}
+        return CourseRegistration(
+            cid=enrolled_class.cid,
+            cname=course.cname,
+            credit=course.credit,
+            fee=course.fee,
+            slot=enrolled_class.slot,
+            pname=enrolled_class.professor_name,
+            day=enrolled_class.day,
+            room=enrolled_class.room,
+            start_period=enrolled_class.start_period,
+            end_period=enrolled_class.end_period,
+            start_date=enrolled_class.start_date,
+            end_date=enrolled_class.end_date,
+        )
+    else:
+        raise HTTPException(status_code=404, detail="No classes available for enrollment")
 
-@router.delete('/{sid}/unenroll_course_{course_id}')
+
+
+@router.delete('/{sid}/unenroll_course_{cid}')
 async def delete_class(sid: str, course_id: str, db: Session = Depends(get_db)):
     student = db.query(Student).filter(Student.sid == sid).first()
     if not student:
         raise HTTPException(status_code=404, detail="Student not found")
-
     course = db.query(Course).filter(Course.cid == course_id).first()
     if not course:
         raise HTTPException(status_code=404, detail="Course not found")
-
-    for course_class in course.classes:
+    enrolled_class = course.classes[0] if course.classes else None
+    if enrolled_class:
         enrollment_to_delete = db.query(Enrollment).filter(
-            Enrollment.sid == sid, Enrollment.class_id == course_class.class_id
+            Enrollment.sid == sid, Enrollment.class_id == enrolled_class.class_id
         ).first()
         if enrollment_to_delete:
-            db.delete(enrollment_to_delete)
-
-    db.commit()
-    return {"status": "Unenrollment successful", "unenrolled_course": course_id}
+            register_date = datetime.strptime(enrollment_to_delete.register_time, '%Y-%m-%d').date()
+            current_date = datetime.now().date()
+            if register_date == current_date:
+                db.delete(enrollment_to_delete)
+                db.commit()
+                return {"status": "Unenrollment successful", "unenrolled_course": course_id}
+            else:
+                raise HTTPException(status_code=400, detail="Cannot unenroll from a class registered on a different day")
+        else:
+            raise HTTPException(status_code=404, detail="Enrollment record not found")
+    else:
+        raise HTTPException(status_code=404, detail="No classes available for unenrollment")

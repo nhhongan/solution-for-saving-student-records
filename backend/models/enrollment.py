@@ -11,5 +11,6 @@ class Enrollment(Base):
     midterm = Column(Integer)
     final = Column(Integer)
     gpa = Column(Integer)
+    register_time = Column(String)
     PrimaryKeyConstraint(sid, class_id)
     
