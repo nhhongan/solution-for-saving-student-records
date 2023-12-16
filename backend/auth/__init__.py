@@ -8,7 +8,3 @@ ALGORITHM = config("algorithm", default="HS256")
 
 bcrypt_context = CryptContext(schemes=['bcrypt'], deprecated='auto')
 
-
-
-# @router.post("/login")
-# async def login()

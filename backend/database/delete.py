@@ -57,4 +57,4 @@ def drop_user_table():
     connection.commit()
     connection.close()
 
-drop_user_table()
+# drop_user_table()

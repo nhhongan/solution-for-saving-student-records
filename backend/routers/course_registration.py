@@ -59,52 +59,57 @@ async def get_course(cid: str, db: Session = Depends(get_db)):
 
     raise HTTPException(status_code=404, detail=f"Classes with cid {cid} not found")
 
-@router.patch('/{sid}/enroll_course_{cid}', response_model=CourseRegistration)
-async def insert_class(sid: str, course_id: str, db: Session = Depends(get_db)):
+@router.patch('/{sid}/enroll_courses', response_model=List[CourseRegistration])
+async def insert_class(sid: str, course_ids: List[str], db: Session = Depends(get_db)):
     student = db.query(Student).filter(Student.sid == sid).first()
     if not student:
         raise HTTPException(status_code=404, detail="Student not found")
 
-    course = db.query(Course).filter(Course.cid == course_id).first()
-    if not course:
-        raise HTTPException(status_code=404, detail="Course not found")
+    response = []
 
-    existing_enrollment = db.query(Enrollment).filter(
-        Enrollment.sid == sid, Enrollment.class_id.in_([cls.class_id for cls in course.classes])
-    ).first()
-    if existing_enrollment:
-        raise HTTPException(
-            status_code=400, detail="Student is already enrolled in this course"
-        )
-    enrolled_class = course.classes[0] if course.classes else None
+    for course_id in course_ids:
+        course = db.query(Course).filter(Course.cid == course_id).first()
+        if not course:
+            raise HTTPException(status_code=404, detail=f"Course with ID {course_id} not found")
 
-    if enrolled_class:
-        new_enrollment = Enrollment(
-            sid=sid,
-            class_id=enrolled_class.class_id,
-            inclass=0,
-            midterm=0,
-            final=0,
-            gpa=0,
-            register_time=datetime.now().strftime('%Y-%m-%d'),
-        )
-        db.add(new_enrollment)
-        db.commit()
+        for enrolled_class in course.classes:
+            existing_enrollment = db.query(Enrollment).filter(
+                Enrollment.sid == sid, Enrollment.class_id == enrolled_class.class_id
+            ).first()
+            if existing_enrollment:
+                raise HTTPException(
+                    status_code=400, detail=f"Student is already enrolled in the class with ID {enrolled_class.class_id} for the course with ID {course_id}"
+                )
 
-        return CourseRegistration(
-            cid=enrolled_class.cid,
-            cname=course.cname,
-            credit=course.credit,
-            fee=course.fee,
-            slot=enrolled_class.slot,
-            pname=enrolled_class.professor_name,
-            day=enrolled_class.day,
-            room=enrolled_class.room,
-            start_period=enrolled_class.start_period,
-            end_period=enrolled_class.end_period,
-            start_date=enrolled_class.start_date,
-            end_date=enrolled_class.end_date,
-        )
+            new_enrollment = Enrollment(
+                sid=sid,
+                class_id=enrolled_class.class_id,
+                inclass=0,
+                midterm=0,
+                final=0,
+                gpa=0,
+                register_time=datetime.now().strftime('%Y-%m-%d'),
+            )
+            db.add(new_enrollment)
+            db.commit()
+
+            response.append(CourseRegistration(
+                cid=enrolled_class.cid,
+                cname=course.cname,
+                credit=course.credit,
+                fee=course.fee,
+                slot=enrolled_class.slot,
+                pname=enrolled_class.professor_name,
+                day=enrolled_class.day,
+                room=enrolled_class.room,
+                start_period=enrolled_class.start_period,
+                end_period=enrolled_class.end_period,
+                start_date=enrolled_class.start_date,
+                end_date=enrolled_class.end_date,
+            ))
+
+    if response:
+        return response
     else:
         raise HTTPException(status_code=404, detail="No classes available for enrollment")
 
