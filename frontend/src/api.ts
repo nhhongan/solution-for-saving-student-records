@@ -58,3 +58,8 @@ export const getStudentMarks = async(sid: string): Promise<AxiosResponse<Mark[]>
   const response = await axios.get(process.env.REACT_APP_API_ENDPOINT + `/student-mark/${sid}`);
   return response;
 }
+
+export const patchRegisteredClass = async(sid: string, cids: string[]): Promise<AxiosResponse<any>> => {
+  const response = await axios.patch(process.env.REACT_APP_API_ENDPOINT + `/course-registration/${sid}/enroll_courses`, cids);
+  return response;
+}

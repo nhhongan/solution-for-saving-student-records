@@ -5,7 +5,7 @@ import TextInput from "components/FilterForm/TextInput";
 import Table, { Row, TableType } from "components/Table/Table";
 import EditTable from "components/EditableTable/EditableTable";
 import Class from "models/Class";
-import { getClass } from "api";
+import { getClass, patchRegisteredClass } from "api";
 
 const headers = [
   "Course Id",
@@ -75,6 +75,22 @@ function CourseRegisPage() {
       }
     }
   };
+  const handleRegister = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    if (user && selectedIds.length > 0) {
+      const userObj = JSON.parse(user);
+      const sid = userObj.sid;
+      patchRegisteredClass(sid, selectedIds).then((res) => {
+        if (res.status === 200) {
+          alert("Register successfully");
+        } else {
+          alert("Register failed");
+        }
+      })
+    } else {
+      alert("Please select at least one course");
+    }
+  };
   return (
     <div className="regis-page page">
       <FilterForm onSubmit={handleFilter}>
@@ -90,7 +106,7 @@ function CourseRegisPage() {
                     value={faculty} 
                     handleValueChange={(e)=>setFaculty(e.target.value)} /> */}
       </FilterForm>
-      <FilterForm type={FormType.SUBMIT}>
+      <FilterForm type={FormType.SUBMIT} onSubmit={handleRegister}>
         <EditTable
           headers={headers}
           contents={contents}
