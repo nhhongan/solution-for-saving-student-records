@@ -33,14 +33,7 @@ type TableProps = {
   type: TableType;
 };
 
-const Table: React.FC<TableProps> = ({ headers, contents, type }) => {
-  const IndexCell = ({value}: {value: any}) => {
-    if (type === TableType.EDITABLE) {
-      return <td><input type="checkbox" /></td>;
-    } else {
-      return <td>{value}</td>;
-    }
-  }
+const Table: React.FC<TableProps> = ({ headers, contents, type, }) => {
   return (
     <div className="table-wrapper">
       <table className={`table ${type}`} cellSpacing={0}>
@@ -57,7 +50,7 @@ const Table: React.FC<TableProps> = ({ headers, contents, type }) => {
             <tr key={index} className={row.type}>
               
               { row.type !== RowType.Aggregate && 
-                <IndexCell value={index + 1}/>
+                <td>{index + 1}</td>
               }
               {row.cols.map((col, index) => (
                 <td
