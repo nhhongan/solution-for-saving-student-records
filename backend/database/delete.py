@@ -1,18 +1,17 @@
 import sqlite3
-
 def create_connection():
-    connection = sqlite3.connect("students.db")
+    connection = sqlite3.connect("backend/students.db")
     return connection
 
 
-# def drop_teach_table():
-#     connection = create_connection()
-#     cursor = connection.cursor()
-#     cursor.execute("""
-#         DROP TABLE IF EXISTS teach;
-#     """)
-#     connection.commit()
-#     connection.close()
+def drop_teach_table():
+    connection = create_connection()
+    cursor = connection.cursor()
+    cursor.execute("""
+        DROP TABLE IF EXISTS teach;
+    """)
+    connection.commit()
+    connection.close()
 
 # drop_teach_table()
 
@@ -38,13 +37,24 @@ def create_connection():
 
 # drop_class_table()
 
-# def drop_enroll_table():
-#     connection = create_connection()
-#     cursor = connection.cursor()
-#     cursor.execute("""
-#         DROP TABLE IF EXISTS enrollment;
-#     """)
-#     connection.commit()
-#     connection.close()
+def drop_enroll_table():
+    connection = create_connection()
+    cursor = connection.cursor()
+    cursor.execute("""
+        DROP TABLE IF EXISTS enrollment;
+    """)
+    connection.commit()
+    connection.close()
 
 # drop_enroll_table()
+
+def drop_user_table():
+    connection = create_connection()
+    cursor = connection.cursor()
+    cursor.execute("""
+        DROP TABLE IF EXISTS user;
+    """)
+    connection.commit()
+    connection.close()
+
+# drop_user_table()

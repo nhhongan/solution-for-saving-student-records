@@ -20,7 +20,7 @@ class TuitionFee(BaseModel):
     cid: str
     class_id: int
     cname: str
-    credits: int
+    credit: int
     semester: str
     fee: int
 
@@ -56,17 +56,14 @@ async def get_classes_of_student(sid: str, semester: str, db: Session = Depends(
         course_fee_after_discount = course_fee * (1 - discount_percentage / 100)
         total_fee += course_fee_after_discount
 
-
         tuition_fee_entry = TuitionFee(
             cid=class_.course.cid,
             class_id=enrollment.class_id,
             cname=class_.cname,
-            credits=credits,
+            credit=credits,
             semester=class_.semester,
             fee=course_fee,
         )
-
         response_classes.append(tuition_fee_entry)
     
-
     return TuitionFeeResponse(tuition_fees=response_classes, total_fee=total_fee)

@@ -1,7 +1,7 @@
 import sqlite3
 
 def create_connection():
-    connection = sqlite3.connect("students.db")
+    connection = sqlite3.connect("backend/students.db")
     return connection
 
 def create_student_table():
@@ -20,7 +20,7 @@ def create_student_table():
     connection.commit()
     connection.close()
 
-create_student_table()
+# create_student_table()
 
 def create_user_table():
     connection = create_connection()
@@ -51,7 +51,7 @@ def create_major_table():
     connection.commit()
     connection.close()
 
-create_major_table()
+# create_major_table()
 
 def create_course_table():
     connection = create_connection()
@@ -69,7 +69,7 @@ def create_course_table():
     connection.commit()
     connection.close()
 
-create_course_table()
+# create_course_table()
 
 def create_professor_table():
     connection = create_connection()
@@ -84,7 +84,7 @@ def create_professor_table():
     connection.commit()
     connection.close()
 
-create_professor_table()
+# create_professor_table()
 
 def create_class_table():
     connection = create_connection()
@@ -112,7 +112,7 @@ def create_class_table():
     connection.commit()
     connection.close()
 
-create_class_table()
+# create_class_table()
 
 
 def create_teach_table():
@@ -127,12 +127,13 @@ def create_teach_table():
         room TEXT NOT NULL,
         pid VARCHAR NOT NULL,
         professor_name TEXT NOT NULL,
-        FOREIGN KEY(cid) REFERENCES course(cid),
-        FOREIGN KEY(cname) REFERENCES course(cname),
+        FOREIGN KEY(cid) REFERENCES class(cid),
+        FOREIGN KEY(cname) REFERENCES class(cname),
         FOREIGN KEY(professor_name) REFERENCES professor(pname),
         FOREIGN KEY(day) REFERENCES class(day),
         FOREIGN KEY(room) REFERENCES class(room),
         FOREIGN KEY(class_id) REFERENCES class(class_id),
+        FOREIGN KEY(pid) REFERENCES professor(pid),
         PRIMARY KEY(pid, class_id)
     )
     """)
@@ -148,10 +149,11 @@ def create_enrollment_table():
         CREATE TABLE IF NOT EXISTS enrollment (
         sid VARCHAR,
         class_id INTEGER,
-        inclass INTEGER NOT NULL,
-        midterm INTEGER NOT NULL,
-        final INTEGER NOT NULL,
-        gpa INTEGER NOT NULL,
+        inclass INTEGER NOT NULL DEFAULT 0,
+        midterm INTEGER NOT NULL DEFAULT 0,
+        final INTEGER NOT NULL DEFAULT 0,
+        gpa INTEGER NOT NULL DEFAULT 0,
+        register_time TEXT NOT NULL,
         PRIMARY KEY(sid, class_id),
         FOREIGN KEY(sid) REFERENCES student(sid),
         FOREIGN KEY(class_id) REFERENCES class(class_id)
@@ -175,10 +177,22 @@ def create_scholarship_table():
     connection.commit()
     connection.close()
 
-create_scholarship_table()
+# create_scholarship_table()
 
+def create_exam_schedule_table():
+    connection = create_connection()
+    cursor = connection.cursor()
+    cursor.execute("""
+        CREATE TABLE IF NOT EXISTS exam_schedule (
+        class_id INTEGER,
+        day TEXT NOT NULL,
+        time TEXT NOT NULL, 
+        room TEXT NOT NULL,
+        PRIMARY KEY(day, time, room),
+        FOREIGN KEY(class_id) REFERENCES class(class_id)
+    )
+    """)
+    connection.commit()
+    connection.close()
 
-
-
-
-
+create_exam_schedule_table()

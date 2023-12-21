@@ -1,86 +1,128 @@
-import { useState } from 'react';
-import check_icon from 'assets/images/square-check-solid 1.svg';
-import SelectInput from 'components/FilterForm/SelectInput';
-import FilterForm from 'components/FilterForm/FilterForm';
-import TextInput from 'components/FilterForm/TextInput';
-import Table, { Row, TableType } from 'components/Table/Table';
+import { useEffect, useState } from "react";
 
-interface Course {
-    id: string;
-    name: string;
-    credits: number;
-    slots: number;
-    description: string;
-    lecturer: string
-}
+import FilterForm, { FormType } from "components/FilterForm/FilterForm";
+import TextInput from "components/FilterForm/TextInput";
+import Table, { Row, TableType } from "components/Table/Table";
+import EditTable from "components/EditableTable/EditableTable";
+import Class from "models/Class";
+import { getClass, patchRegisteredClass } from "api";
 
-const filteredCourses: Course[] = [
-    {
-        id: "CSE101",
-        name: "Introduction to Computer Science",
-        credits: 3,
-        slots: 50,
-        description: "An introduction to the fundamental concepts of computer science.",
-        lecturer: "John Doe"
-    },
-    {
-        id: "MTH201",
-        name: "Calculus I",
-        credits: 4,
-        slots: 40,
-        description: "A course on differential and integral calculus.",
-        lecturer: "Jane Smith"
-    },
-    {
-        id: "ENG101",
-        name: "English Composition",
-        credits: 3,
-        slots: 30,
-        description: "A course on writing and composition.",
-        lecturer: "Bob Johnson"
-    }
+const headers = [
+  "Course Id",
+  "Course Name",
+  "Credits",
+  "Slots",
+  "Time",
+  "Lecturers",
 ];
 
-const headers = ['Course Id', 'Course Name', 'Credits', 'Slots', 'Description', 'Lecturers']
+const rowGenerator = (courses: Class[]): Row[] => {
+  let contents: Row[] = [];
+  for (const course of courses) {
+    const row = new Row();
+    row.cols.push({ name: course.cid ? course.cid : "" });
+    row.cols.push({ name: course.cname });
+    row.cols.push({ name: course.credit.toString() });
+    row.cols.push({ name: course.slot?.toString() ?? "" });
+    row.cols.push({ name: course.day });
+    row.cols.push({ name: course.pname });
+    contents.push(row);
+  }
+  return contents;
+};
 function CourseRegisPage() {
-    // Create a list of courses
-    
-    const [courseid, setCourseId] = useState('');
-    const [faculty, setFaculty] = useState('');
-    
-    const contents: Row[] = []
-    for (const course of filteredCourses) {
-        const row = new Row();
-        row.cols.push({name: course.id, rowSpan: 1});
-        row.cols.push({name: course.name, rowSpan: 1});
-        row.cols.push({name: course.credits.toString(), rowSpan: 1});
-        row.cols.push({name: course.slots.toString(), rowSpan: 1});
-        row.cols.push({name: course.description, rowSpan: 1});
-        row.cols.push({name: course.lecturer, rowSpan: 1});
-        contents.push(row);
+  // Create a list of courses
+
+  const [courseid, setCourseId] = useState("");
+  const [contents, setContents] = useState<Row[]>([]);
+  const user = localStorage.getItem("user");
+  const [selectedIds, setIds] = useState<string[]>([]);
+  const [selectedCourses, setCourses] = useState<Class[]>([]);
+  const handleFilter = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    if (user) {
+      getClass(courseid as string).then((res) => {
+        const courses: Class[] = res.data;
+
+        setContents(rowGenerator(courses));
+      });
     }
-    return (
-        <div className="regis-page page">
-            <FilterForm>
-                <TextInput 
-                    id={'course'} 
-                    label="Course Id"
-                    value={courseid} 
-                    handleValueChange={(e)=>setCourseId(e.target.value)} />
-                <SelectInput 
+  };
+  const handleRowClick = (id: string) => {
+    if (selectedIds.includes(id)) {
+      setIds(selectedIds.filter((selectedId) => selectedId !== id));
+      setCourses(
+        selectedCourses.filter((selectedCourse) => selectedCourse.cid !== id)
+      );
+    } else {
+      setIds([...selectedIds, id]);
+      const course = contents.find((content) => content.cols[0].name === id);
+      if (course) {
+        const newCourse: Class = {
+          cid: course.cols[0].name,
+          cname: course.cols[1].name,
+          credit: parseInt(course.cols[2].name),
+          slot: parseInt(course.cols[3].name),
+          day: course.cols[4].name,
+          pname: course.cols[5].name,
+          class_id: "",
+          room: "",
+          start_period: 0,
+          end_period: 0,
+          semester: "",
+        };
+        setCourses([...selectedCourses, newCourse]);
+      }
+    }
+  };
+  const handleRegister = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    if (user && selectedIds.length > 0) {
+      const userObj = JSON.parse(user);
+      const sid = userObj.sid;
+      patchRegisteredClass(sid, selectedIds).then((res) => {
+        if (res.status === 200) {
+          alert("Register successfully");
+        } else {
+          alert("Register failed");
+        }
+      })
+    } else {
+      alert("Please select at least one course");
+    }
+  };
+  return (
+    <div className="regis-page page">
+      <FilterForm onSubmit={handleFilter}>
+        <TextInput
+          id={"course"}
+          label="Course Id"
+          value={courseid}
+          handleValueChange={(e) => setCourseId(e.target.value)}
+        />
+        {/* <SelectInput 
                     id={'faculty'} 
                     label="Faculty"
                     value={faculty} 
-                    handleValueChange={(e)=>setFaculty(e.target.value)} />
-            </FilterForm>
-            <FilterForm >
-                <Table headers={headers} type={TableType.EDITABLE} contents={contents}/>
-                <button id='submit' type="submit">
-                    Save Registration<img src={check_icon} alt="check icon" />
-                </button>
-            </FilterForm>
-        </div>
-    );
+                    handleValueChange={(e)=>setFaculty(e.target.value)} /> */}
+      </FilterForm>
+      <FilterForm type={FormType.SUBMIT} onSubmit={handleRegister}>
+        <EditTable
+          headers={headers}
+          contents={contents}
+          onRowClick={handleRowClick}
+          selectedIds={selectedIds}
+        />
+      </FilterForm>
+      {selectedIds.length > 0 && (
+        <Table
+          headers={headers}
+          type={TableType.Type1}
+          contents={rowGenerator(selectedCourses)}
+        />
+      )}
+    </div>
+  );
 }
 
 export default CourseRegisPage;

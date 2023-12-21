@@ -1,5 +1,6 @@
 from sqlalchemy import Column, Integer, String, VARCHAR, ForeignKey, Float, DateTime, PrimaryKeyConstraint
 from database.__init__ import Base
+from sqlalchemy.orm import relationship
 
 class Enrollment(Base):
     __tablename__ = 'enrollment'
@@ -10,4 +11,6 @@ class Enrollment(Base):
     midterm = Column(Integer)
     final = Column(Integer)
     gpa = Column(Integer)
+    register_time = Column(String)
     PrimaryKeyConstraint(sid, class_id)
+    

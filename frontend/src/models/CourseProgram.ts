@@ -1,7 +1,7 @@
 export default interface CourseProgram {
-    courseProgramId: string;
-    name: string;
-    credits: number;
+    cid: string;
+    cname: string;
+    credit: number;
     semester: number;
     elective: boolean;
     learnt: boolean;
