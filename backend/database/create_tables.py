@@ -27,10 +27,9 @@ def create_user_table():
     cursor = connection.cursor()
     cursor.execute("""
         CREATE TABLE IF NOT EXISTS user (
-        user_id INTEGER PRIMARY KEY AUTOINCREMENT,
         username TEXT NOT NULL,
         password VARCHAR NOT NULL,
-        sid VARCHAR,
+        sid VARCHAR PRIMARY KEY,
         FOREIGN KEY(sid) REFERENCES student(sid)
     )
     """)
